@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction to Kopran | New Employee Orientation</title>
+<style>
+:root{
+  --navy:#0A2540; --blue:#0066CC; --teal:#00A896; --green:#2E7D32;
+  --gold:#D5A83B; --ink:#1E293B; --muted:#64748B; --bg:#F8FAFC;
+  --card-bg:#FFFFFF; --line:#E2E8F0; --shadow:0 18px 50px rgba(10,37,64,.12);
+  --accent-red:#D90429;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#0F172A;color:var(--ink);font-family:'Segoe UI',Inter,Roboto,sans-serif}
+body{overflow:hidden}
+.deck{height:100vh;width:100vw;position:relative;background:var(--bg)}
+.slide{display:none;height:100vh;width:100vw;padding:5.5vh 7vw 7vh;position:relative;overflow:hidden;background:
+ radial-gradient(circle at 88% 12%,rgba(0,168,150,.08),transparent 25%),
+ linear-gradient(135deg,#fff 0%,#f4f7fa 100%)}
+.slide.active{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:.35;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* Cover Slide Styling */
+.cover{background:linear-gradient(125deg,#0a2540 0%,#1e3a8a 52%,#00a896 100%);color:white}
+.cover:after{content:"";position:absolute;width:45vw;height:45vw;border:1px solid rgba(255,255,255,.16);border-radius:50%;right:-16vw;top:-18vw;box-shadow:0 0 0 60px rgba(255,255,255,.025),0 0 0 120px rgba(255,255,255,.02)}
+.kicker{font-size:14px;letter-spacing:2.5px;text-transform:uppercase;font-weight:700;color:var(--teal);margin-bottom:16px}
+.cover .kicker{color:#8de0dc}
+h1{font-size:clamp(36px,5vw,72px);line-height:.98;margin:0 0 22px;max-width:900px;letter-spacing:-1.5px}
+h2{font-size:clamp(26px,3.2vw,44px);line-height:1.08;margin:0 0 20px;color:var(--navy);letter-spacing:-1px}
+.cover h2{color:white;font-size:clamp(20px,2.2vw,30px);font-weight:400;max-width:760px}
+.subtitle{font-size:18px;line-height:1.55;max-width:720px;color:#d8e6ef}
+.footer{position:absolute;left:7vw;bottom:24px;font-size:12px;color:#8796a5;letter-spacing:.5px}
+.cover .footer{color:rgba(255,255,255,.65)}
+.slide-no{position:absolute;right:7vw;top:28px;color:#98a6b5;font-size:12px;font-weight:700}
+
+/* Grid & Layout System */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.grid.two{grid-template-columns:repeat(2,1fr)}
+.grid.four{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 6px 20px rgba(10,37,64,.05);border-top:4px solid var(--blue)}
+.card.teal-top{border-top-color:var(--teal)}
+.card.red-top{border-top-color:var(--accent-red)}
+.card h3{margin:0 0 8px;color:var(--navy);font-size:18px;font-weight:700}
+.card p{margin:0;color:#526173;line-height:1.5;font-size:15px}
+.stat{font-size:36px;font-weight:800;color:var(--blue);margin-bottom:4px}
+.callout{margin-top:20px;background:#eef8f8;border-left:5px solid var(--teal);padding:16px 20px;border-radius:0 12px 12px 0;color:#1e3a8a;line-height:1.5;font-size:18px}
+
+/* Timeline Components */
+.timeline{position:relative;margin-top:12px;padding:10px 0;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.timeline-item{background:white;border:1px solid var(--line);border-radius:12px;padding:14px 18px;box-shadow:0 2px 8px rgba(0,0,0,.03);border-left:4px solid var(--teal)}
+.timeline-year{font-weight:800;color:var(--accent-red);font-size:15px;margin-bottom:4px}
+.timeline-desc{font-size:15px;color:#475569;line-height:1.45}
+
+/* Process Components */
+.process{display:flex;align-items:stretch;gap:10px;margin-top:25px}
+.step{flex:1;background:white;border:1px solid var(--line);border-radius:14px;padding:16px;position:relative}
+.step:not(:last-child):after{content:"→";position:absolute;right:-18px;top:50%;transform:translateY(-50%);font-size:22px;color:var(--teal);z-index:2}
+.step .num{font-size:26px;font-weight:800;letter-spacing:1px}
+.step h3{font-size:18px;margin:6px 0}
+.step p{font-size:14px;color:#617181;line-height:1.4;margin:0}
+
+/* Manufacturing Process Flow Horizontal Styling */
+.process-flow{display:flex;align-items:center;justify-content:space-between;background:white;padding:28px 18px;border-radius:14px;border:1px solid var(--line);box-shadow:0 4px 12px rgba(0,0,0,.03);margin-top:25px}
+.process-step{background:#f1f5f9;border:1px solid #cbd5e1;border-radius:10px;padding:16px 12px;text-align:center;font-weight:700;font-size:14px;color:var(--navy);flex:1;margin:0 4px}
+.process-arrow{color:var(--teal);font-size:20px;font-weight:700}
+
+/* Map & Market Visual Styling */
+.accreditation-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.badge{background:#1e293b;color:#fff;padding:6px 12px;border-radius:6px;font-size:12px;font-weight:700;letter-spacing:0.5px}
+
+/* Roadmap Graphics Styling */
+.roadmap-wrapper{position:relative;width:100%;background:#ffffff;border-radius:16px;padding:20px;border:1px solid var(--line);box-shadow:0 8px 24px rgba(10,37,64,0.06);margin-top:10px}
+.roadmap-svg{width:100%;height:auto;max-height:420px}
+.road-path-bg{fill:none;stroke:#1E293B;stroke-width:85;stroke-linecap:round;stroke-linejoin:round}
+.road-path-inner{fill:none;stroke:#334155;stroke-width:78;stroke-linecap:round;stroke-linejoin:round}
+.road-dash{fill:none;stroke:#CBD5E1;stroke-width:3;stroke-dasharray:10,10;stroke-linecap:round;stroke-linejoin:round}
+.node-pin{cursor:pointer;transition:transform .2s}
+.node-pin:hover{transform:scale(1.15);transform-origin:center}
+.node-card{fill:#ffffff;filter:drop-shadow(0px 3px 6px rgba(0,0,0,0.18));rx:6px}
+.node-title{font-size:10px;font-weight:800;fill:var(--navy)}
+.node-sub{font-size:8.5px;fill:#64748b;font-weight:600}
+
+/* Micro Elements */
+.pill{display:inline-block;padding:5px 12px;border-radius:999px;background:#eaf3fb;color:#1b6094;font-weight:700;font-size:18px;letter-spacing:.5px}
+.quote{font-size:clamp(22px,2.8vw,36px);line-height:1.25;font-weight:700;color:var(--navy);max-width:880px}
+.behaviour{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:20px}
+.behaviour .card{text-align:center;padding:16px 8px;border-top:3px solid var(--blue)}
+.icon{width:40px;height:40px;border-radius:10px;background:#eaf4f3;color:var(--teal);display:grid;place-items:center;font-size:18px;margin:0 auto 10px;font-weight:700}
+.behaviour h3{font-size:14px;margin-bottom:4px}
+.behaviour p{font-size:11px;line-height:1.3}
+
+/* Start Overlay */
+.start-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(10,37,64,0.85);backdrop-filter:blur(5px);z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white}
+.start-btn{background:var(--teal);color:white;border:none;padding:16px 36px;font-size:20px;font-weight:700;border-radius:50px;cursor:pointer;box-shadow:0 10px 25px rgba(0,168,150,0.4);transition:all 0.3s ease}
+.start-btn:hover{background:#008678;transform:scale(1.05)}
+
+/* UI Controls */
+.controls{position:fixed;z-index:50;left:50%;bottom:14px;transform:translateX(-50%);display:flex;gap:8px;background:rgba(10,37,64,.92);padding:6px 12px;border-radius:999px;box-shadow:0 10px 35px rgba(0,0,0,.25)}
+.controls button{border:0;background:transparent;color:#fff;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:600}
+.controls button:hover{background:rgba(255,255,255,.15)}
+.controls button.speaking{background:var(--teal)}
+.progress{position:fixed;z-index:60;top:0;left:0;height:4px;background:var(--teal);width:0;transition:width .25s}
+
+.two-col{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center}
+ul{margin:8px 0 0;padding-left:18px}
+li{margin:6px 0;color:#475569;font-size:15px;line-height:1.45}
+.end{text-align:center;display:flex;align-items:center;justify-content:center;flex-direction:column;height:100%}
+
+@media(max-width:900px){
+ body{overflow:auto}.deck,.slide{min-height:100vh;height:auto}.slide{padding:8vh 5vw 12vh}
+ .grid,.grid.two,.grid.four,.two-col,.timeline{grid-template-columns:1fr}
+ .process{flex-direction:column}.step:not(:last-child):after{content:"↓";right:auto;left:50%;top:auto;bottom:-20px;transform:translateX(-50%)}
+ .process-flow{flex-direction:column;gap:8px}.process-arrow{transform:rotate(90deg)}
+ .behaviour{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+<div class="progress" id="progress"></div>
+
+<!-- SLIDE 1: Cover -->
+<section class="slide cover active" data-slide="1">
+  <div class="start-overlay" id="startOverlay">
+    <button class="start-btn" onclick="startPresentation()">▶ Start Orientation</button>
+  </div>
+  
+  <div class="slide-content" style="display: flex; align-items: center; justify-content: space-between; gap: 40px; height: 100%; width: 100%;">
+    <div class="text-content" style="flex: 1; z-index: 2; white-space: nowrap;">
+      <div class="kicker" style="margin-bottom: 24px;">New Employee Orientation</div>
+      <h1 style="white-space: nowrap; margin-bottom: 24px; font-size: clamp(32px, 4.5vw, 64px);">Introduction to Kopran</h1>
+      <h2 style="white-space: nowrap; margin-bottom: 20px; font-size: clamp(20px, 2.2vw, 30px);">Building Healthcare Solutions with Passion & Excellence</h2>
+      <p class="subtitle" style="white-space: nowrap; margin-bottom: 0; font-size: clamp(14px, 1.4vw, 18px);">An orientation to our organization, integrated business model, operations, and workplace values.</p>
+    </div>
+
+    <div class="image-content" style="width: 50%; display: flex; justify-content: flex-end; align-items: center; z-index: 1;">
+      <img src="plant1.jpg" alt="Kopran Plant" style="width: 100%; height: auto; border-radius: 12px; object-fit: cover;">
+    </div>
+  </div>
+
+  <div class="footer">KOPRAN LIMITED • CORPORATE ORIENTATION</div>
+  <div class="slide-no">Slide 01 of 22</div>
+</section>
+
+<!-- SLIDE 2: Welcome -->
+<section class="slide" data-slide="2">
+ <div class="kicker">01 • Welcome</div><h2>Welcome to Our Global Team</h2>
+ <div class="two-col" style="align-items: flex-start; margin-top: 0px;">
+  <div style="margin-top: 0; padding-top: 0;">
+    <div class="quote" style="font-size: clamp(18px, 2.6vw, 24px); margin-top: 10px;">Join a legacy shaped by six decades of dedication, excellence, and commitment.</div>
+   
+   <div class="callout" style="font-size: 18px; margin-top: 20px;">
+    <strong style="font-size: 20px;">Today's Orientation Objectives:</strong>
+    <ul style="font-size: 18px;">
+     <li style="font-size: 18px;">Understand Kopran’s heritage, identity, and market presence.</li>
+     <li style="font-size: 18px;">Learn about our integrated business model (APIs & Formulations).</li>
+     <li style="font-size: 18px;">Discover our manufacturing footprint and quality standards.</li>
+     <li style="font-size: 18px;">Align with our core culture, ethics, and professional expectations.</li>
+    </ul>
+   </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start; margin-top:-35px;">
+    
+    <div style="width:100%; max-width:380px; background:#ffffff; padding:12px; border-radius:16px; border:1px solid var(--line); box-shadow:0 10px 25px rgba(10,37,64,0.08); text-align:center;">
+        
+        <div style="font-size:20px; font-weight:700; color:var(--navy); margin-bottom:6px;">
+            Mr. Surendra Somani
+        </div>
+
+        <img src="bod-1.png" alt="Chairman & Managing Director"
+             style="width:80%; height:auto; max-height:380px; object-fit:cover; border-radius:10px; display:block; margin:0 auto;">
+
+        <div style="margin-top:8px; font-weight:700; color:var(--navy); font-size:14px;">
+            Chairman & Managing Director
+        </div>
+
+    </div>
+</div>
+
+<div class="footer">Introduction to Kopran</div>
+<div class="slide-no">Slide 02 of 22</div>
+</section>
+
+<!-- SLIDE 3: At a Glance -->
+<section class="slide" data-slide="3">
+ <div class="kicker">02 • Overview</div><h2>Kopran at a Glance</h2>
+ <div class="grid four">
+  <div class="card" style="text-align:center"><div class="stat">60+</div><h3>Years of Legacy</h3><p>Pioneering pharmaceutical manufacturing and healthcare solutions since 1958.</p></div>
+  <div class="card teal-top" style="text-align:center"><div class="stat">API + FDF</div><h3>Integrated Model</h3><p>End-to-end capabilities from Active Ingredients to Finished Dosage Forms.</p></div>
+  <div class="card" style="text-align:center"><div class="stat">Global</div><h3>Market Reach</h3><p>Products registered and distributed across international health markets.</p></div>
+  <div class="card teal-top" style="text-align:center"><div class="stat">Parijat</div><h3>Group Enterprise</h3><p>Backed by strong corporate governance and group financial stability.</p></div>
+ </div>
+ <div class="callout">Kopran operates as an integrated pharmaceutical manufacturer committed to research, quality, and accessible health products.</div>
+ <div class="footer">Company Profile</div><div class="slide-no">Slide 03 of 22</div>
+</section>
+
+<!-- SLIDE 4: History & Evolution -->
+<section class="slide" data-slide="4">
+ <div class="kicker">03 • History</div><h2>Our Journey of Evolution</h2>
+ <div class="timeline">
+  <div class="timeline-item"><div class="timeline-year">1958</div><div class="timeline-desc">Incorporated as Kopran Chemical Company Pvt. Ltd. on April 26.</div></div>
+  <div class="timeline-item"><div class="timeline-year">1984 – 1985</div><div class="timeline-desc">Converted to Public Limited; Technical cooperation with Yuhan Corp (South Korea) for Cephalexin & Rifampicin.</div></div>
+  <div class="timeline-item"><div class="timeline-year">1990 – 1992</div><div class="timeline-desc">Rebranded as Kopran Limited; Launched Omeprazole (LOKIT); Successful equity public issue.</div></div>
+  <div class="timeline-item"><div class="timeline-year">1996 – 2001</div><div class="timeline-desc">Won Trishul Export Award; Strategic alliances with Synpac (UK) and E. Merck Ltd; Patent approval for NCE KNC-6.</div></div>
+  <div class="timeline-item"><div class="timeline-year">2013 – 2018</div><div class="timeline-desc">Launched SPARKLE FMCG brand; Acquired state-of-the-art API manufacturing facility at Panoli, Gujarat.</div></div>
+  <div class="timeline-item"><div class="timeline-year">Present</div><div class="timeline-desc">Continuous technological innovation, cGMP compliance, and global regulatory expansions.</div></div>
+ </div>
+ <div class="footer">Historical Milestones</div><div class="slide-no">Slide 04 of 22</div>
+</section>
+
+<!-- SLIDE 5: Vision & Strategic Mission -->
+<section class="slide" data-slide="5">
+ <div class="kicker">04 • Purpose</div><h2>Vision & Strategic Mission</h2>
+ <div class="grid two">
+  <div class="card red-top">
+   <div class="pill" style="color:var(--accent-red);background:#fde8e8">OUR VISION</div>
+   <p style="font-size:24px;color:#243b53;margin-top:14px;line-height:1.5;text-align:justify;">To focus on technical innovation and development of high-quality products integrated through sophisticated R&D practices, capturing global opportunities to serve humanity.</p>
+  </div>
+  <div class="card teal-top">
+   <div class="pill">OUR MISSION</div>
+   <p style="font-size:24px;color:#243b53;margin-top:14px;line-height:1.5; text-align:justify;">To build a sustainable growth business through integrated product development, adoption of latest manufacturing technologies, and strict adherence to global quality standards.</p>
+  </div>
+ </div>
+ <div class="callout"><strong>Social Purpose:</strong> As a socially conscious pharmaceutical organization, our overarching endeavour is to provide reliable, high-quality medicines to patients worldwide at affordable prices.</div>
+ <div class="footer">Corporate Direction</div><div class="slide-no">Slide 05 of 22</div>
+</section>
+
+<!-- SLIDE 6: Business Divisions -->
+<section class="slide" data-slide="6">
+ <div class="kicker">05 • Business Model</div><h2>Our Dual Growth Engines</h2>
+ <div class="grid two">
+  <div class="card">
+   <h3>1. Active Pharmaceutical Ingredients (APIs)</h3>
+   <p style="font-size:18px; color:#5B9BD5; font-weight:bold; text-align:justify;">Developing and synthesizing high-potency chemical ingredients that form the active foundation for finished drug therapies.</p>
+   <ul>
+    <li style="margin-bottom: 10px; font-size: 18px;">Focus on complex active molecule synthesis</li>
+    <li style="margin-bottom: 10px; font-size: 18px;">Advanced process development and scale-up</li>
+    <li style="margin-bottom: 0; font-size: 18px;">Global regulatory filings and compliance</li>
+   </ul>
+  </div>
+  <div class="card teal-top">
+   <h3>2. Finished Dosage Forms (Formulations)</h3>
+   <p style="font-size:18px; color:#5B9BD5; font-weight:bold; text-align:justify;">Manufacturing patient-ready solid dosage forms, sterile injectables, and specialty medicinal products.</p>
+   <ul>
+    <li style="margin-bottom: 16px; font-size: 18px;">Tablets, Capsules, and Dry Syrups</li>
+    <li style="margin-bottom: 16px; font-size: 18px;">Sterile Cephalosporins & Carbapenems</li>
+    <li style="margin-bottom: 0; font-size: 18px;">Global distribution & packaging capabilities</li>
+   </ul>
+  </div>
+ </div>
+ <div class="footer">Integrated Divisions</div><div class="slide-no">Slide 06 of 22</div>
+</section>
+
+<!-- SLIDE 7: Therapeutic Segments -->
+<section class="slide" data-slide="7">
+ <div class="kicker">06 • Portfolio</div><h2>Therapeutic Product Segments</h2>
+ <div class="grid">
+  <div class="card"><h3>Anti-Infectives & Antibiotics</h3><p>Sterile Cephalosporins, Carbapenems, and Macrolides.</p></div>
+  <div class="card"><h3>Cardiovascular</h3><p>Anti-hypertensive formulations and vascular management therapies.</p></div>
+  <div class="card"><h3>Gastroenterology</h3><p>Proton pump inhibitors including Omeprazole preparations.</p></div>
+  <div class="card"><h3>Neurology & Urology</h3><p>Neuromodulators and targeted urological treatments.</p></div>
+  <div class="card"><h3>Specialty Care</h3><p>Anti-thrombosis solutions and anti-acne therapeutics.</p></div>
+  <div class="card"><h3>Consumer Health (FMCG)</h3><p>Specialized oral hygiene and consumer care solutions (e.g., SPARKLE).</p></div>
+ </div>
+ <div class="footer">Product Portfolio</div><div class="slide-no">Slide 07 of 22</div>
+</section>
+
+<!-- SLIDE 8: Geographic Footprint -->
+<section class="slide" data-slide="8">
+ <div class="kicker">07 • Footprint</div><h2>Strategic Business Locations</h2>
+ <div class="grid">
+  <div class="card"><div class="stat">Mumbai</div><h3>Corporate HQ</h3><p>Central administration, strategic planning, global trade, and executive functions.</p></div>
+  <div class="card"><div class="stat">Khopoli</div><h3>Formulations Plant</h3><p>Major manufacturing hub for oral solid dosages, tablets, capsules, and syrups.</p></div>
+  <div class="card"><div class="stat">Mahad</div><h3>API Synthesis Unit</h3><p>Dedicated chemical synthesis facility for bulk drug substances.</p></div>
+  <div class="card"><div class="stat">Panoli</div><h3>Advanced API Facility</h3><p>Kopran Research Laboratories API center focused on specialized synthesis in Gujarat.</p></div>
+  <div class="card"><div class="stat">Regional</div><h3>Commercial Hubs</h3><p>Established regional sales and logistics offices in Delhi, Kolkata, and major centers.</p></div>
+  
+  <div class="card" style="display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 16px; background: #ffffff; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 10px 25px rgba(10,37,64,0.08);">
+   <div style="font-weight: 700; color: var(--navy); font-size: 15px; border-bottom: 2px solid var(--line); padding-bottom: 6px;">
+    Pan-India Presence & Footprint
+   </div>
+   <div style="display: flex; align-items: flex-start; gap: 8px; font-size: 13px;">
+    <span style="font-weight: 700; color: var(--navy); min-width: 95px;">Corporate HQ:</span>
+    <span>Mumbai, Maharashtra</span>
+   </div>
+   <div style="display: flex; align-items: flex-start; gap: 8px; font-size: 13px;">
+    <span style="font-weight: 700; color: var(--navy); min-width: 95px;">Manufacturing:</span>
+    <span>Khopoli, Mahad & Panoli</span>
+   </div>
+   <div style="display: flex; align-items: flex-start; gap: 8px; font-size: 13px;">
+    <span style="font-weight: 700; color: var(--navy); min-width: 95px;">Distribution:</span>
+    <span>Pan-India Network & Exports</span>
+   </div>
+  </div>
+ </div>
+ <div class="footer">Geographic Presence</div><div class="slide-no">Slide 08 of 22</div>
+</section>
+
+<!-- SLIDE 9: Global Markets -->
+<section class="slide" data-slide="9">
+ <div class="kicker">08 • Global Reach</div><h2>Global Markets Presence</h2>
+ <div class="two-col" style="align-items: center;">
+  <div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+   <img src="world.png" alt="World Map - Kopran Global Presence" style="width: 100%; height: auto; max-height: 400px; object-fit: contain;">
+  </div>
+  <div>
+   <div class="card teal-top">
+    <h3>Worldwide Distribution Reach</h3>
+    <p>Kopran has built strong international trade relationships, active product registrations, and supply chains spanning key global regions.</p>
+    <ul>
+     <li><strong>Latin America & Caribbean:</strong> Strategic growth markets for key active formulations.</li>
+     <li><strong>Europe & UK:</strong> Active export of high-grade active ingredients and generic medicines.</li>
+     <li><strong>Africa & Middle East:</strong> Established healthcare partner supplying essential antibiotics and core therapies.</li>
+     <li><strong>South-East Asia:</strong> Expanding footprint across major regional commercial centers.</li>
+    </ul>
+   </div>
+  </div>
+ </div>
+ <div class="footer">Global Footprint</div><div class="slide-no">Slide 09 of 22</div>
+</section>
+
+<!-- SLIDE 10: Accreditations & Approvals -->
+<section class="slide" data-slide="10">
+ <div class="kicker">09 • Accreditations</div><h2>Global Accreditations & Compliance</h2>
+ <div class="grid two">
+  <div class="card">
+   <h3>Regulatory Approvals</h3>
+   <p>Our manufacturing plants maintain compliance and stringent audit clearances from premier international authorities:</p>
+   <div class="accreditation-badges">
+     <span class="badge" style="background:#0066CC">US FDA</span>
+     <span class="badge" style="background:#00A896">EU GMP</span>
+     <span class="badge" style="background:#2E7D32">WHO GMP</span>
+     <span class="badge" style="background:#D5A83B">UK MHRA</span>
+     <span class="badge" style="background:#D90429">SAHPRA</span>
+     <span class="badge" style="background:#0A2540">TGA Australia</span>
+   </div>
+  </div>
+  <div class="card teal-top">
+   <h3>Standards of Excellence</h3>
+   <ul>
+    <li>Continuous audit readiness across API and Formulations sites.</li>
+    <li>Compliance with international Pharmacopoeia (USP, EP, IP, BP).</li>
+    <li>Robust Quality Management System (QMS) supporting global dossier submissions.</li>
+    <li>Strict environmental, health, and safety certification guidelines.</li>
+   </ul>
+  </div>
+ </div>
+ <div class="callout">Regulatory accreditations enable Kopran products to serve patients across more than 50 international markets seamlessly.</div>
+ <div class="footer">Quality Accreditations</div><div class="slide-no">Slide 10 of 22</div>
+</section>
+
+<!-- SLIDE 11: Approval Roadmap - Plant I -->
+<section class="slide" data-slide="11">
+ <div class="kicker">10 • Plant I Roadmap</div><h2>Approval Timeline : Formulation Plant - I</h2>
+ <div class="roadmap-wrapper">
+   <svg class="roadmap-svg" viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg">
+     <path class="road-path-bg" d="M 50,300 C 180,300 200,80 340,80 C 480,80 500,300 650,300 C 800,300 820,80 950,80" />
+     <path class="road-path-inner" d="M 50,300 C 180,300 200,80 340,80 C 480,80 500,300 650,300 C 800,300 820,80 950,80" />
+     <path class="road-dash" d="M 50,300 C 180,300 200,80 340,80 C 480,80 500,300 650,300 C 800,300 820,80 950,80" />
+
+     <g class="node-pin" transform="translate(60,300)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MCC, S. Africa</text><text class="node-sub" x="0" y="10" text-anchor="middle">Oct. 2013</text></g>
+     <g class="node-pin" transform="translate(130,225)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH Iraq</text><text class="node-sub" x="0" y="10" text-anchor="middle">Mar. 2018</text></g>
+     <g class="node-pin" transform="translate(195,145)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">FDA Philippines</text><text class="node-sub" x="0" y="10" text-anchor="middle">Apr. 2018</text></g>
+     <g class="node-pin" transform="translate(290,80)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH, Oman</text><text class="node-sub" x="0" y="10" text-anchor="middle">Jul. 2018</text></g>
+     <g class="node-pin" transform="translate(380,105)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH Libya</text><text class="node-sub" x="0" y="10" text-anchor="middle">May 2022</text></g>
+     <g class="node-pin" transform="translate(450,195)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH Yemen</text><text class="node-sub" x="0" y="10" text-anchor="middle">Aug. 2022</text></g>
+     <g class="node-pin" transform="translate(525,275)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">WHO-CDSCO</text><text class="node-sub" x="0" y="10" text-anchor="middle">Oct. 2022</text></g>
+     <g class="node-pin" transform="translate(615,300)"><rect class="node-card" x="-42" y="-18" width="84" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MHRA UK</text><text class="node-sub" x="0" y="10" text-anchor="middle">Apr. 2023</text></g>
+     <g class="node-pin" transform="translate(700,270)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">EFDA Ethiopia</text><text class="node-sub" x="0" y="10" text-anchor="middle">May 2023</text></g>
+     <g class="node-pin" transform="translate(775,185)"><rect class="node-card" x="-42" y="-18" width="84" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">PPB Kenya</text><text class="node-sub" x="0" y="10" text-anchor="middle">Dec. 2024</text></g>
+     <g class="node-pin" transform="translate(845,115)"><rect class="node-card" x="-48" y="-18" width="96" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">TMDA/NDA/FDA</text><text class="node-sub" x="0" y="10" text-anchor="middle">Aug / Sept 2025</text></g>
+     <g class="node-pin" transform="translate(940,80)"><rect class="node-card" x="-45" y="-20" width="90" height="40" stroke="#2E7D32" stroke-width="1.5"/><text class="node-title" x="0" y="-4" text-anchor="middle" fill="#2E7D32">EU-GMP, Malta</text><text class="node-sub" x="0" y="10" text-anchor="middle" font-weight="bold">Jan. 2026</text></g>
+   </svg>
+ </div>
+ <div class="footer">Regulatory History • Plant I</div><div class="slide-no">Slide 11 of 22</div>
+</section>
+
+<!-- SLIDE 12: Approval Roadmap - Plant II -->
+<section class="slide" data-slide="12">
+ <div class="kicker">11 • Plant II Roadmap</div><h2>Approval Timeline : Formulation Plant - II</h2>
+ <div class="roadmap-wrapper">
+   <svg class="roadmap-svg" viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg">
+     <path class="road-path-bg" d="M 50,300 C 180,300 200,80 340,80 C 480,80 500,300 650,300 C 800,300 820,80 950,80" />
+     <path class="road-path-inner" d="M 50,300 C 180,300 200,80 340,80 C 480,80 500,300 650,300 C 800,300 820,80 950,80" />
+     <path class="road-dash" d="M 50,300 C 180,300 200,80 340,80 C 480,80 500,300 650,300 C 800,300 820,80 950,80" />
+
+     <g class="node-pin" transform="translate(50,300)"><rect class="node-card" x="-42" y="-18" width="84" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">TGA Australia</text><text class="node-sub" x="0" y="10" text-anchor="middle">Aug. 2012</text></g>
+     <g class="node-pin" transform="translate(115,245)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MCC, S. Africa</text><text class="node-sub" x="0" y="10" text-anchor="middle">Oct. 2013</text></g>
+     <g class="node-pin" transform="translate(175,170)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH Iraq</text><text class="node-sub" x="0" y="10" text-anchor="middle">Mar. 2018</text></g>
+     <g class="node-pin" transform="translate(245,100)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">FDA Philippines</text><text class="node-sub" x="0" y="10" text-anchor="middle">Apr. 2018</text></g>
+     <g class="node-pin" transform="translate(320,80)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH Oman</text><text class="node-sub" x="0" y="10" text-anchor="middle">Jul. 2018</text></g>
+     <g class="node-pin" transform="translate(400,120)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH Libya</text><text class="node-sub" x="0" y="10" text-anchor="middle">May 2022</text></g>
+     <g class="node-pin" transform="translate(470,210)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH Yemen</text><text class="node-sub" x="0" y="10" text-anchor="middle">Aug. 2022</text></g>
+     <g class="node-pin" transform="translate(540,280)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MCA Zimbabwe</text><text class="node-sub" x="0" y="10" text-anchor="middle">Sept. 2022</text></g>
+     <g class="node-pin" transform="translate(615,300)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">WHO-CDSCO</text><text class="node-sub" x="0" y="10" text-anchor="middle">Oct. 2022</text></g>
+     <g class="node-pin" transform="translate(695,270)"><rect class="node-card" x="-42" y="-18" width="84" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MHRA UK</text><text class="node-sub" x="0" y="10" text-anchor="middle">Apr. 2023</text></g>
+     <g class="node-pin" transform="translate(770,190)"><rect class="node-card" x="-52" y="-18" width="104" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">PPB / TMDA / NDA</text><text class="node-sub" x="0" y="10" text-anchor="middle">Dec 2024 / Aug 2025</text></g>
+     <g class="node-pin" transform="translate(845,115)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">FDA Rwanda</text><text class="node-sub" x="0" y="10" text-anchor="middle">Sept. 2025</text></g>
+     <g class="node-pin" transform="translate(940,80)"><rect class="node-card" x="-45" y="-20" width="90" height="40" stroke="#2E7D32" stroke-width="1.5"/><text class="node-title" x="0" y="-4" text-anchor="middle" fill="#2E7D32">EU-GMP, Malta</text><text class="node-sub" x="0" y="10" text-anchor="middle" font-weight="bold">Jan. 2026</text></g>
+   </svg>
+ </div>
+ <div class="footer">Regulatory History • Plant II</div><div class="slide-no">Slide 12 of 22</div>
+</section>
+
+<!-- SLIDE 13: How Medicines Are Made -->
+<section class="slide" data-slide="13">
+ <div class="kicker">12 • Operations</div><h2>Understanding Pharma Manufacturing</h2>
+ <p style="color:var(--muted);margin-top:-10px;font-size:15px">The Value-Chain Journey</p>
+ <div class="process-flow">
+    <div class="process-step">1. Raw Material<br><span style="font-weight: normal; font-size:11px;">Sourcing & Testing</span></div>
+    <div class="process-arrow">➔</div>
+    <div class="process-step">2. Synthesis / Blending<br><span style="font-weight: normal; font-size:11px;">Reaction / Granulation</span></div>
+    <div class="process-arrow">➔</div>
+    <div class="process-step">3. Processing<br><span style="font-weight: normal; font-size:11px;">Compression / Filling</span></div>
+    <div class="process-arrow">➔</div>
+    <div class="process-step">4. Quality Control<br><span style="font-weight: normal; font-size:11px;">Analysis & Approval</span></div>
+    <div class="process-arrow">➔</div>
+    <div class="process-step">5. Packaging<br><span style="font-weight: normal; font-size:11px;">Blister / Strip / Bottle</span></div>
+    <div class="process-arrow">➔</div>
+    <div class="process-step">6. Distribution<br><span style="font-weight: normal; font-size:11px;">Global Delivery</span></div>
+ </div>
+ <div class="callout" style="text-align:center">
+   Every step along this value chain requires strict documentation, environment controls, and quality verification.
+ </div>
+ <div class="footer">Pharma Manufacturing Flow</div><div class="slide-no">Slide 13 of 22</div>
+</section>
+
+<!-- SLIDE 14: Value Chain Overview -->
+<section class="slide" data-slide="14">
+ <div class="kicker">13 • Value Chain</div><h2>From Development to Delivery</h2>
+ <div class="process">
+  <div class="step" style="border-top: 4px solid #0066CC;">
+    <div class="num" style="color: #0066CC;">01</div>
+    <h3 style="color: #0066CC;">Research & Sourcing</h3>
+    <p>R&D synthesis, raw material qualification, and testing.</p>
+  </div>
+  <div class="step" style="border-top: 4px solid #00A896;">
+    <div class="num" style="color: #00A896;">02</div>
+    <h3 style="color: #00A896;">Synthesis / Blending</h3>
+    <p>Controlled chemical processing, reaction, and granulation.</p>
+  </div>
+  <div class="step" style="border-top: 4px solid #D5A83B;">
+    <div class="num" style="color: #D5A83B;">03</div>
+    <h3 style="color: #D5A83B;">Processing</h3>
+    <p>Compression, encapsulation, or sterile filling.</p>
+  </div>
+  <div class="step" style="border-top: 4px solid #E63946;">
+    <div class="num" style="color: #E63946;">04</div>
+    <h3 style="color: #E63946;">Quality Control</h3>
+    <p>Rigorous analytical testing and QA release.</p>
+  </div>
+  <div class="step" style="border-top: 4px solid #6A0572;">
+    <div class="num" style="color: #6A0572;">05</div>
+    <h3 style="color: #6A0572;">Global Delivery</h3>
+    <p>Secure packaging and international supply chain distribution.</p>
+  </div>
+ </div>
+ <div class="callout">Every step requires strict documentation, environmental controls, and validation to ensure safety.</div>
+ <div class="footer">Value Chain Overview</div><div class="slide-no">Slide 14 of 22</div>
+</section>
+
+<!-- SLIDE 15: Manufacturing Discipline & cGMP -->
+<section class="slide" data-slide="15">
+ <div class="kicker">14 • Operations</div><h2>Quality Manufacturing & cGMP Compliance</h2>
+ <div class="grid two" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch;">
+  <div class="card" style="display: flex; flex-direction: column;">
+   <h3 style="font-size: 20px; margin-bottom: 16px;">Good Manufacturing Practices (cGMP)</h3>
+   <ul style="margin: 0; padding-left: 20px;">
+    <li style="margin-bottom: 14px;">Rigorous adherence to approved Standard Operating Procedures (SOPs).</li>
+    <li style="margin-bottom: 14px;">Mandatory gowning and personal protective equipment (PPE) protocols.</li>
+    <li style="margin-bottom: 14px;">Strict plant uniform color codes across distinct processing zones.</li>
+    <li style="margin-bottom: 0;">Preventive maintenance and automated HVAC environmental controls.</li>
+   </ul>
+  </div>
+  <div class="card teal-top" style="display: flex; flex-direction: column;">
+   <h3 style="font-size: 20px; margin-bottom: 16px;">Cleanrooms & Cross-Contamination Prevention</h3>
+   <p style="margin-bottom: 16px; line-height: 1.6;">Our facilities utilize controlled cleanroom areas, differential pressure systems, and strict entry airlocks to completely eliminate cross-contamination hazards between products.</p>
+   <ul style="margin: 0; padding-left: 20px;">
+    <li style="margin-bottom: 14px;">HEPA filtration and environmental parameter monitoring.</li>
+    <li style="margin-bottom: 14px;">Differential pressure gradients to isolate processing zones.</li>
+    <li style="margin-bottom: 0;">Dedicated airlock systems for material and personnel entry.</li>
+   </ul>
+  </div>
+ </div>
+ <div class="footer">Operational Discipline</div><div class="slide-no">Slide 15 of 22</div>
+</section>
+
+<!-- SLIDE 16: Quality Mindset -->
+<section class="slide" data-slide="16">
+ <div class="kicker">15 • Quality</div><h2>Quality Is Everyone's Responsibility</h2>
+ <div class="grid">
+  <div class="card"><h3>Patient Safety First</h3><p>Every tablet, capsule, and active compound directly affects patient health. Quality standards are absolute and non-negotiable.</p></div>
+  <div class="card"><h3>Right First Time</h3><p>Executing tasks accurately the first time eliminates operational risk, avoids reprocessing, and ensures regulatory compliance.</p></div>
+  <div class="card"><h3>Data Integrity</h3><p>Accurate, contemporaneous, and truthful batch documentation guarantees complete traceability and patient trust.</p></div>
+ </div>
+ <div class="callout">Quality is not just a department at Kopran—it is an individual mindset brought to every daily action.</div>
+ <div class="footer">Quality Culture</div><div class="slide-no">Slide 16 of 22</div>
+</section>
+
+<!-- SLIDE 17: EHS -->
+<section class="slide" data-slide="17">
+ <div class="kicker">16 • Safety & Environment</div><h2>Safety, Health & Environment (EHS)</h2>
+ <div class="grid two">
+  <div class="card">
+   <h3>Occupational Health & Safety</h3>
+   <ul>
+    <li style="margin-bottom: 14px;">Zero-tolerance policy toward unmitigated workplace safety risks.</li>
+    <li style="margin-bottom: 14px;">Mandatory safety gear, hazard training, and emergency response drills.</li>
+    <li style="margin-bottom: 0;">Fully equipped Occupational Health Centers (OHC) at manufacturing sites.</li>
+   </ul>
+  </div>
+  <div class="card teal-top">
+   <h3>Environmental Stewardship</h3>
+   <ul>
+    <li style="margin-bottom: 14px;">Responsible chemical waste treatment and effluent management.</li>
+    <li style="margin-bottom: 14px;">Resource efficiency and sustainable manufacturing practices.</li>
+    <li style="margin-bottom: 0;">Strict compliance with statutory environmental regulations.</li>
+   </ul>
+  </div>
+ </div>
+ <div class="footer">Responsible Operations</div><div class="slide-no">Slide 17 of 22</div>
+</section>
+
+<!-- SLIDE 18: Inter-Functional Ecosystem -->
+<section class="slide" data-slide="18">
+ <div class="kicker">17 • Ecosystem</div><h2>How Our Departments Connect</h2>
+ <div class="grid">
+  <div class="card"><h3>R&D & Tech Transfer</h3><p>Formulates therapies and transfers technology master files to plants.</p></div>
+  <div class="card"><h3>Manufacturing</h3><p>Executes controlled batch production in accordance with SOPs.</p></div>
+  <div class="card"><h3>QA & Quality Control</h3><p>Tests raw materials, inspects processes, and certifies batch release.</p></div>
+  <div class="card"><h3>Engineering & EHS</h3><p>Maintains facility uptime, calibration, utility systems, and site safety.</p></div>
+  <div class="card"><h3>Supply Chain & Logistics</h3><p>Procures quality materials and coordinates timely global deliveries.</p></div>
+  <div class="card"><h3>HR, Finance & Support</h3><p>Provides human capital, administrative framework, and strategic governance.</p></div>
+ </div>
+ <div class="footer">Organizational Functions</div><div class="slide-no">Slide 18 of 22</div>
+</section>
+
+<!-- SLIDE 19: Corporate Values -->
+<section class="slide" data-slide="19">
+ <div class="kicker">18 • Culture</div><h2>Our Shared Values</h2>
+ <div class="behaviour">
+  <div class="card"><h3>Innovation</h3><div class="icon" style="margin: 8px 0;">💡</div><p style="font-weight: bold;">Encouraging new ideas and modern technology adoption.</p></div>
+  <div class="card"><h3>Excellence</h3><div class="icon" style="margin: 8px 0;">⭐</div><p style="font-weight: bold;">Striving for quality across R&D, manufacturing, and support.</p></div>
+  <div class="card"><h3>Collaboration</h3><div class="icon" style="margin: 8px 0;">🤝</div><p style="font-weight: bold;">Working seamlessly across departments to achieve goals.</p></div>
+  <div class="card"><h3>Accountability</h3><div class="icon" style="margin: 8px 0;">🎯</div><p style="font-weight: bold;">Taking ownership of duties and delivering results.</p></div>
+  <div class="card"><h3>Sustainability</h3><div class="icon" style="margin: 8px 0;">🌱</div><p style="font-weight: bold;">Acting responsibly for the environment and society.</p></div>
+  <div class="card"><h3>Integrity</h3><div class="icon" style="margin: 8px 0;">🛡️</div><p style="font-weight: bold;">Upholding absolute honesty in records and actions.</p></div>
+ </div>
+ <div class="callout" style="font-weight: bold;">These core principles guide our workplace culture, interactions, and business decisions.</div>
+ <div class="footer">Values & Behaviors</div><div class="slide-no">Slide 19 of 22</div>
+</section>
+
+<!-- SLIDE 20: Ethics & Compliance -->
+<section class="slide" data-slide="20">
+ <div class="kicker">19 • Ethics</div><h2>Integrity & Compliance</h2>
+ <div style="display: flex; flex-direction: column; gap: 20px;">
+  <div class="quote" style="white-space: nowrap;">Do the right thing—especially when no one is watching.</div>
+  <div class="card" style="padding: 24px; font-size: 16px;">
+   <ul style="margin: 0; padding-left: 20px;">
+    <li style="margin-bottom: 14px; font-size: 18px;">Strictly follow applicable SOPs, safety standards, and statutory laws.</li>
+    <li style="margin-bottom: 14px; font-size: 18px;">Maintain absolute data integrity in all records and batch books.</li>
+    <li style="margin-bottom: 14px; font-size: 18px;">Protect company trade secrets, proprietary formulas, and IP.</li>
+    <li style="margin-bottom: 14px; font-size: 18px;">Speak up: Report safety hazards or non-compliance concerns immediately.</li>
+    <li style="margin-bottom: 0; font-size: 18px;">Treat all colleagues, vendors, and partners with dignity and respect.</li>
+   </ul>
+  </div>
+ </div>
+ <div class="footer">Ethics & Governance</div><div class="slide-no">Slide 20 of 22</div>
+</section>
+
+<!-- SLIDE 21: Expectations -->
+<section class="slide" data-slide="21">
+ <div class="kicker">20 • Expectations</div><h2>What We Expect From Every Team Member</h2>
+ <div class="grid two">
+  <div class="card">
+   <h3 style="font-size: 24px;">Workplace Mindset</h3>
+   <ul>
+    <li style="font-size: 20px;"><strong>Safety First:</strong> Prioritize personal and team health in all tasks.</li>
+    <li style="font-size: 20px;"><strong>Quality Always:</strong> Refuse to compromise on compliance or precision.</li>
+    <li style="font-size: 20px;"><strong>Continuous Improvement:</strong> Look for smarter, safer ways to work.</li>
+   </ul>
+  </div>
+  <div class="card teal-top">
+   <h3 style="font-size: 24px;">Professional Conduct</h3>
+   <ul>
+    <li style="font-size: 20px;"><strong>Ownership:</strong> Take full responsibility for your role and deliverables.</li>
+    <li style="font-size: 20px;"><strong>Teamwork:</strong> Help colleagues succeed across departments.</li>
+    <li style="font-size: 20px;"><strong>Punctuality & Discipline:</strong> Respect organizational schedules and SOPs.</li>
+   </ul>
+  </div>
+ </div>
+ <div class="footer">Employee Conduct</div><div class="slide-no">Slide 21 of 22</div>
+</section>
+
+<!-- SLIDE 22: Welcome Onboard -->
+<section class="slide cover" data-slide="22">
+ <div class="end">
+  <div class="kicker" style="color:#8de0dc; font-size: 24px">Your Journey Starts Today</div>
+  <h1 style="font-size:clamp(36px,5vw,64px)">WELCOME TO KOPRAN</h1>
+  <p class="subtitle" style="text-align:center; font-size: 24px">Know • Understand • Contribute • Grow</p>
+  <p style="margin-top:30px;color:#b9d8dc;font-size:24px">We are excited to build a healthier future together with you.</p>
+ </div>
+ <div class="footer">KOPRAN LIMITED • NEW EMPLOYEE ORIENTATION</div><div class="slide-no">Slide 22 of 22</div>
+</section>
+
+</div>
+
+<!-- Navigation Controls -->
+<div class="controls">
+ <button onclick="prev()" title="Previous Slide">◄ Prev</button>
+ <button id="voiceBtn" onclick="toggleVoice()" title="Replay Voiceover">🔊 Replay</button>
+ <button onclick="next()" title="Next Slide">Next ►</button>
+ <button onclick="toggleFullscreen()" title="Fullscreen Mode">⛶</button>
+</div>
+
+<script>
+const slides = [...document.querySelectorAll('.slide')];
+let current = 0;
+const progress = document.getElementById('progress');
+const voiceBtn = document.getElementById('voiceBtn');
+
+// HTML5 Audio Instance for pre-recorded .wav files
+let currentAudio = new Audio();
+
+function playAudioForSlide(n) {
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+
+  // Links directly to slide1.wav, slide2.wav, ..., slide22.wav
+  // (Change 'slide' to 'audio/slide' if your files are inside an audio folder)
+  const audioPath = `slide${n + 1}.wav`;
+  
+  currentAudio.src = audioPath;
+
+  currentAudio.onplay = () => voiceBtn.classList.add('speaking');
+  currentAudio.onended = () => voiceBtn.classList.remove('speaking');
+  currentAudio.onerror = () => {
+    voiceBtn.classList.remove('speaking');
+    console.warn(`Audio file not found: ${audioPath}`);
+  };
+
+  currentAudio.play().catch(e => {
+    console.log("Audio playback waiting for user interaction or file path error:", e);
+    voiceBtn.classList.remove('speaking');
+  });
+}
+
+function startPresentation() {
+  document.getElementById('startOverlay').style.display = 'none';
+  show(0);
+}
+
+function toggleVoice() {
+  if (!currentAudio.src) {
+    playAudioForSlide(current);
+    return;
+  }
+
+  if (!currentAudio.paused) {
+    currentAudio.pause();
+    voiceBtn.classList.remove('speaking');
+  } else {
+    currentAudio.play().catch(e => console.warn(e));
+    voiceBtn.classList.add('speaking');
+  }
+}
+
+function show(n) {
+  if (n < 0) n = 0;
+  if (n >= slides.length) n = slides.length - 1;
+  
+  current = n;
+  slides.forEach((s, i) => s.classList.toggle('active', i === current));
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+  history.replaceState(null, '', '#slide-' + (current + 1));
+  
+  // Play linked audio file for active slide if overlay is dismissed
+  if (document.getElementById('startOverlay').style.display === 'none') {
+    playAudioForSlide(current);
+  }
+}
+
+function next() {
+  if (current < slides.length - 1) {
+    show(current + 1);
+  }
+}
+
+function prev() {
+  if (current > 0) {
+    show(current - 1);
+  }
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen?.();
+  } else {
+    document.exitFullscreen?.();
+  }
+}
+
+// Keyboard Navigation
+document.addEventListener('keydown', e => {
+  if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); next(); }
+  if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); prev(); }
+  if (e.key === 'Home') show(0);
+  if (e.key === 'End') show(slides.length - 1);
+  if (e.key.toLowerCase() === 'f') toggleFullscreen();
+});
+
+// Mobile Swipe Support
+let touchX = null;
+document.addEventListener('touchstart', e => touchX = e.changedTouches[0].screenX, { passive: true });
+document.addEventListener('touchend', e => {
+  if (touchX === null) return;
+  const dx = e.changedTouches[0].screenX - touchX;
+  if (Math.abs(dx) > 45) dx < 0 ? next() : prev();
+  touchX = null;
+}, { passive: true });
+</script>
+</body>
+</html>
