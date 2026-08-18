@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>कोप्रन ओळख | नवीन कर्मचारी अभिमुखता</title>
+<style>
+:root{
+  --navy:#0A2540; --blue:#0066CC; --teal:#00A896; --green:#2E7D32;
+  --gold:#D5A83B; --ink:#1E293B; --muted:#64748B; --bg:#F8FAFC;
+  --card-bg:#FFFFFF; --line:#E2E8F0; --shadow:0 18px 50px rgba(10,37,64,.12);
+  --accent-red:#D90429;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#0F172A;color:var(--ink);font-family:'Segoe UI',Inter,Roboto,'Mukta','Noto Sans Devanagari',sans-serif}
+body{overflow:hidden}
+.deck{height:100vh;width:100vw;position:relative;background:var(--bg)}
+.slide{display:none;height:100vh;width:100vw;padding:5.5vh 7vw 7vh;position:relative;overflow:hidden;background:
+ radial-gradient(circle at 88% 12%,rgba(0,168,150,.08),transparent 25%),
+ linear-gradient(135deg,#fff 0%,#f4f7fa 100%)}
+.slide.active{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:.35;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* Cover Slide Styling */
+.cover{background:linear-gradient(125deg,#0a2540 0%,#1e3a8a 52%,#00a896 100%);color:white}
+.cover:after{content:"";position:absolute;width:45vw;height:45vw;border:1px solid rgba(255,255,255,.16);border-radius:50%;right:-16vw;top:-18vw;box-shadow:0 0 0 60px rgba(255,255,255,.025),0 0 0 120px rgba(255,255,255,.02)}
+.kicker{font-size:14px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--teal);margin-bottom:16px}
+.cover .kicker{color:#8de0dc}
+h1{font-size:clamp(32px,4.5vw,64px);line-height:1.1;margin:0 0 22px;max-width:900px;letter-spacing:-1px}
+h2{font-size:clamp(24px,3vw,40px);line-height:1.15;margin:0 0 20px;color:var(--navy);letter-spacing:-0.5px}
+.cover h2{color:white;font-size:clamp(20px,2.2vw,30px);font-weight:400;max-width:760px}
+.subtitle{font-size:18px;line-height:1.55;max-width:720px;color:#d8e6ef}
+.footer{position:absolute;left:7vw;bottom:24px;font-size:12px;color:#8796a5;letter-spacing:.5px}
+.cover .footer{color:rgba(255,255,255,.65)}
+.slide-no{position:absolute;right:7vw;top:28px;color:#98a6b5;font-size:12px;font-weight:700}
+
+/* Grid & Layout System */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.grid.two{grid-template-columns:repeat(2,1fr)}
+.grid.four{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 6px 20px rgba(10,37,64,.05);border-top:4px solid var(--blue)}
+.card.teal-top{border-top-color:var(--teal)}
+.card.red-top{border-top-color:var(--accent-red)}
+.card h3{margin:0 0 8px;color:var(--navy);font-size:18px;font-weight:700}
+.card p{margin:0;color:#526173;line-height:1.5;font-size:15px}
+.stat{font-size:36px;font-weight:800;color:var(--blue);margin-bottom:4px}
+.callout{margin-top:20px;background:#eef8f8;border-left:5px solid var(--teal);padding:16px 20px;border-radius:0 12px 12px 0;color:#1e3a8a;line-height:1.5;font-size:18px}
+
+/* Timeline Components */
+.timeline{position:relative;margin-top:12px;padding:10px 0;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.timeline-item{background:white;border:1px solid var(--line);border-radius:12px;padding:14px 18px;box-shadow:0 2px 8px rgba(0,0,0,.03);border-left:4px solid var(--teal)}
+.timeline-year{font-weight:800;color:var(--accent-red);font-size:15px;margin-bottom:4px}
+.timeline-desc{font-size:15px;color:#475569;line-height:1.45}
+
+/* Process Components */
+.process{display:flex;align-items:stretch;gap:10px;margin-top:25px}
+.step{flex:1;background:white;border:1px solid var(--line);border-radius:14px;padding:16px;position:relative}
+.step:not(:last-child):after{content:"→";position:absolute;right:-18px;top:50%;transform:translateY(-50%);font-size:22px;color:var(--teal);z-index:2}
+.step .num{font-size:26px;font-weight:800;letter-spacing:1px}
+.step h3{font-size:18px;margin:6px 0}
+.step p{font-size:14px;color:#617181;line-height:1.4;margin:0}
+
+/* Manufacturing Process Flow Horizontal Styling */
+.process-flow{display:flex;align-items:center;justify-content:space-between;background:white;padding:28px 18px;border-radius:14px;border:1px solid var(--line);box-shadow:0 4px 12px rgba(0,0,0,.03);margin-top:25px}
+.process-step{background:#f1f5f9;border:1px solid #cbd5e1;border-radius:10px;padding:16px 12px;text-align:center;font-weight:700;font-size:14px;color:var(--navy);flex:1;margin:0 4px}
+.process-arrow{color:var(--teal);font-size:20px;font-weight:700}
+
+/* Map & Market Visual Styling */
+.accreditation-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.badge{background:#1e293b;color:#fff;padding:6px 12px;border-radius:6px;font-size:12px;font-weight:700;letter-spacing:0.5px}
+
+/* Roadmap Graphics Styling */
+.roadmap-wrapper{position:relative;width:100%;background:#ffffff;border-radius:16px;padding:20px;border:1px solid var(--line);box-shadow:0 8px 24px rgba(10,37,64,0.06);margin-top:10px}
+.roadmap-svg{width:100%;height:auto;max-height:420px}
+.road-path-bg{fill:none;stroke:#1E293B;stroke-width:85;stroke-linecap:round;stroke-linejoin:round}
+.road-path-inner{fill:none;stroke:#334155;stroke-width:78;stroke-linecap:round;stroke-linejoin:round}
+.road-dash{fill:none;stroke:#CBD5E1;stroke-width:3;stroke-dasharray:10,10;stroke-linecap:round;stroke-linejoin:round}
+.node-pin{cursor:pointer;transition:transform .2s}
+.node-pin:hover{transform:scale(1.15);transform-origin:center}
+.node-card{fill:#ffffff;filter:drop-shadow(0px 3px 6px rgba(0,0,0,0.18));rx:6px}
+.node-title{font-size:10px;font-weight:800;fill:var(--navy)}
+.node-sub{font-size:8.5px;fill:#64748b;font-weight:600}
+
+/* Micro Elements */
+.pill{display:inline-block;padding:5px 12px;border-radius:999px;background:#eaf3fb;color:#1b6094;font-weight:700;font-size:18px;letter-spacing:.5px}
+.quote{font-size:clamp(20px,2.5vw,32px);line-height:1.3;font-weight:700;color:var(--navy);max-width:880px}
+.behaviour{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:20px}
+.behaviour .card{text-align:center;padding:16px 8px;border-top:3px solid var(--blue)}
+.icon{width:40px;height:40px;border-radius:10px;background:#eaf4f3;color:var(--teal);display:grid;place-items:center;font-size:18px;margin:0 auto 10px;font-weight:700}
+.behaviour h3{font-size:14px;margin-bottom:4px}
+.behaviour p{font-size:11px;line-height:1.3}
+
+/* Start Overlay */
+.start-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(10,37,64,0.85);backdrop-filter:blur(5px);z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white}
+.start-btn{background:var(--teal);color:white;border:none;padding:16px 36px;font-size:20px;font-weight:700;border-radius:50px;cursor:pointer;box-shadow:0 10px 25px rgba(0,168,150,0.4);transition:all 0.3s ease}
+.start-btn:hover{background:#008678;transform:scale(1.05)}
+
+/* UI Controls */
+.controls{position:fixed;z-index:50;left:50%;bottom:14px;transform:translateX(-50%);display:flex;gap:8px;background:rgba(10,37,64,.92);padding:6px 12px;border-radius:999px;box-shadow:0 10px 35px rgba(0,0,0,.25)}
+.controls button{border:0;background:transparent;color:#fff;padding:6px 12px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:600}
+.controls button:hover{background:rgba(255,255,255,.15)}
+.controls button.speaking{background:var(--teal)}
+.progress{position:fixed;z-index:60;top:0;left:0;height:4px;background:var(--teal);width:0;transition:width .25s}
+
+.two-col{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center}
+ul{margin:8px 0 0;padding-left:18px}
+li{margin:6px 0;color:#475569;font-size:15px;line-height:1.45}
+.end{text-align:center;display:flex;align-items:center;justify-content:center;flex-direction:column;height:100%}
+
+@media(max-width:900px){
+ body{overflow:auto}.deck,.slide{min-height:100vh;height:auto}.slide{padding:8vh 5vw 12vh}
+ .grid,.grid.two,.grid.four,.two-col,.timeline{grid-template-columns:1fr}
+ .process{flex-direction:column}.step:not(:last-child):after{content:"↓";right:auto;left:50%;top:auto;bottom:-20px;transform:translateX(-50%)}
+ .process-flow{flex-direction:column;gap:8px}.process-arrow{transform:rotate(90deg)}
+ .behaviour{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+<div class="progress" id="progress"></div>
+
+<!-- SLIDE 1: Cover -->
+<section class="slide cover active" data-slide="1">
+  <div class="start-overlay" id="startOverlay">
+    <button class="start-btn" onclick="startPresentation()">▶ प्रेझेंटेशन सुरू करा</button>
+  </div>
+  
+  <div class="slide-content" style="display: flex; align-items: center; justify-content: space-between; gap: 40px; height: 100%; width: 100%;">
+    <div class="text-content" style="flex: 1; z-index: 2; white-space: nowrap;">
+      <div class="kicker" style="margin-bottom: 24px;">नवीन कर्मचाऱ्यांचे स्वागत व ओळख</div>
+      <h1 style="white-space: nowrap; margin-bottom: 24px; font-size: clamp(32px, 4.5vw, 64px);">कोप्रन (Kopran) ची ओळख</h1>
+      <h2 style="white-space: nowrap; margin-bottom: 20px; font-size: clamp(20px, 2.2vw, 30px);">निष्ठा आणि उत्कृष्टतेसह आरोग्यदायी सेवांचा विस्तार</h2>
+      <p class="subtitle" style="white-space: nowrap; margin-bottom: 0; font-size: clamp(14px, 1.4vw, 18px);">आपली संस्था, व्यवसाय मॉडेल, कामकाज आणि कामाच्या ठिकाणच्या मूल्यांची संक्षिप्त माहिती.</p>
+    </div>
+
+    <div class="image-content" style="width: 50%; display: flex; justify-content: flex-end; align-items: center; z-index: 1;">
+      <img src="plant1.jpg" alt="Kopran Plant" style="width: 100%; height: auto; border-radius: 12px; object-fit: cover;">
+    </div>
+  </div>
+
+  <div class="footer">कोप्रन लिमिटेड • कॉर्पोरेट ओरिएंटेशन</div>
+  <div class="slide-no">स्लाईड ०१ / २२</div>
+</section>
+
+<!-- SLIDE 2: Welcome -->
+<section class="slide" data-slide="2">
+ <div class="kicker">०१ • हार्दिक स्वागत</div><h2>आमच्या जागतिक टीममध्ये तुमचे स्वागत आहे!</h2>
+ <div class="two-col" style="align-items: flex-start; margin-top: 0px;">
+  <div style="margin-top: 0; padding-top: 0;">
+    <div class="quote" style="font-size: clamp(18px, 2.6vw, 24px); margin-top: 10px;">सहा दशकांची निष्ठा, उत्कृष्टता आणि समर्पणाने नटलेल्या या प्रवासाचा भाग बना.</div>
+   
+   <div class="callout" style="font-size: 18px; margin-top: 20px;">
+    <strong style="font-size: 20px;">आजच्या ओरिएंटेशनचे मुख्य उद्देश:</strong>
+    <ul style="font-size: 18px;">
+     <li style="font-size: 18px;">कोप्रनचा इतिहास, ओळख आणि बाजारातील स्थानाची माहिती मिळवणे.</li>
+     <li style="font-size: 18px;">आपल्या मुख्य व्यवसायाचे मॉडेल (APIs व Formulations) समजून घेणे.</li>
+     <li style="font-size: 18px;">उत्पादन क्षमता आणि गुणवत्तेचे निकष जाणून घेणे.</li>
+     <li style="font-size: 18px;">कंपनीची संस्कृती, व्यावसायिक मूल्ये व नियम आत्मसात करणे.</li>
+    </ul>
+   </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start; margin-top:-35px;">
+    
+    <div style="width:100%; max-width:380px; background:#ffffff; padding:12px; border-radius:16px; border:1px solid var(--line); box-shadow:0 10px 25px rgba(10,37,64,0.08); text-align:center;">
+        
+        <div style="font-size:20px; font-weight:700; color:var(--navy); margin-bottom:6px;">
+            श्री. सुरेंद्र सोमाणी
+        </div>
+
+        <img src="bod-1.png" alt="Chairman & Managing Director"
+             style="width:80%; height:auto; max-height:380px; object-fit:cover; border-radius:10px; display:block; margin:0 auto;">
+
+        <div style="margin-top:8px; font-weight:700; color:var(--navy); font-size:14px;">
+            अध्यक्ष आणि व्यवस्थापकीय संचालक
+        </div>
+
+    </div>
+</div>
+
+<div class="footer">कोप्रन ची ओळख</div>
+<div class="slide-no">स्लाईड ०२ / २२</div>
+</section>
+
+<!-- SLIDE 3: At a Glance -->
+<section class="slide" data-slide="3">
+ <div class="kicker">०२ • थोडक्यात माहिती</div><h2>कोप्रन: एका दृष्टिक्षेपात</h2>
+ <div class="grid four">
+  <div class="card" style="text-align:center"><div class="stat">६०+</div><h3>वर्षांचा वारसा</h3><p>१९५८ पासून औषध निर्मिती आणि आरोग्य सेवेत अग्रेसर.</p></div>
+  <div class="card teal-top" style="text-align:center"><div class="stat">API + FDF</div><h3>एकात्मिक मॉडेल</h3><p>कच्च्या घटकांपासून (API) ते तयार औषधांपर्यंत (Formulations) सर्व क्षमता.</p></div>
+  <div class="card" style="text-align:center"><div class="stat">जागतिक</div><h3>बाजारात विस्तार</h3><p>अनेक देशांत उत्पादनांची नोंदणी आणि वितरण.</p></div>
+  <div class="card teal-top" style="text-align:center"><div class="stat">पारिजात</div><h3>ग्रुपचा आधार</h3><p>मजबूत व्यवस्थापन आणि आर्थिक स्थिरतेचे पाठबळ.</p></div>
+ </div>
+ <div class="callout">कोप्रन ही एक तंत्रज्ञानावर आधारित औषध उत्पादक कंपनी असून संशोधन, गुणवत्ता आणि परवडणाऱ्या औषधांसाठी कटिबद्ध आहे.</div>
+ <div class="footer">कंपनी प्रोफाइल</div><div class="slide-no">स्लाईड ०३ / २२</div>
+</section>
+
+<!-- SLIDE 4: History & Evolution -->
+<section class="slide" data-slide="4">
+ <div class="kicker">०३ • इतिहास</div><h2>आपला आजपर्यंतचा प्रवास</h2>
+ <div class="timeline">
+  <div class="timeline-item"><div class="timeline-year">१९५८</div><div class="timeline-desc">२६ एप्रिल रोजी 'कोप्रन केमिकल कंपनी प्रायव्हेट लिमिटेड' ची स्थापना.</div></div>
+  <div class="timeline-item"><div class="timeline-year">१९८४ – १९८५</div><div class="timeline-desc">पब्लिक लिमिटेड मध्ये रुपांतर; दक्षिण कोरियाच्या युहान कॉर्प सोबत तांत्रिक करार.</div></div>
+  <div class="timeline-item"><div class="timeline-year">१९९० – १९९२</div><div class="timeline-desc">'कोप्रन लिमिटेड' असे नवीन नाव; Omeprazole (LOKIT) चे यशस्वी लाँचिंग.</div></div>
+  <div class="timeline-item"><div class="timeline-year">१९९६ – २००१</div><div class="timeline-desc">'त्रिशूळ एक्सपोर्ट अवॉर्ड' प्राप्त; आंतरराष्ट्रीय कंपन्यांसोबत युती आणि पेटंट मंजुरी.</div></div>
+  <div class="timeline-item"><div class="timeline-year">२०१३ – २०१८</div><div class="timeline-desc">'SPARKLE' ब्रँडचे लाँचिंग; पानोली, गुजरात येथे अत्याधुनिक API प्लांटची सुरुवात.</div></div>
+  <div class="timeline-item"><div class="timeline-year">आज</div><div class="timeline-desc">सतत नवीन तंत्रज्ञानाचा वापर, आंतरराष्ट्रीय गुणवत्तेचे पालन आणि जागतिक विस्तार.</div></div>
+ </div>
+ <div class="footer">इतिहासातील महत्त्वाचे टप्पे</div><div class="slide-no">स्लाईड ०४ / २२</div>
+</section>
+
+<!-- SLIDE 5: Vision & Strategic Mission -->
+<section class="slide" data-slide="5">
+ <div class="kicker">०४ • ध्येय आणि उद्देश</div><h2>व्हिजन आणि मिशन</h2>
+ <div class="grid two">
+  <div class="card red-top">
+   <div class="pill" style="color:var(--accent-red);background:#fde8e8">आमचे व्हिजन (VISION)</div>
+   <p style="font-size:22px;color:#243b53;margin-top:14px;line-height:1.5;text-align:justify;">प्रगत संशोधन आणि नवकल्पनांच्या माध्यमातून उच्च दर्जाची औषधे तयार करणे आणि संपूर्ण मानवजातीची सेवा करण्यासाठी जागतिक संधींचा उपयोग करणे.</p>
+  </div>
+  <div class="card teal-top">
+   <div class="pill">आमचे मिशन (MISSION)</div>
+   <p style="font-size:22px;color:#243b53;margin-top:14px;line-height:1.5; text-align:justify;">उत्पादनातील नवीन तंत्रज्ञान, एकात्मिक संशोधन आणि गुणवत्तेच्या जागतिक निकषांचे काटेकोर पालन करून व्यवसायाची शाश्वत वाढ करणे.</p>
+  </div>
+ </div>
+ <div class="callout"><strong>सामाजिक उद्देश:</strong> एक जबाबदार औषध निर्माण संस्था म्हणून, जगभरातील रुग्णांना परवडणाऱ्या दरात उच्च दर्जाची औषधे उपलब्ध करून देणे हे आमचे मुख्य ध्येय आहे.</div>
+ <div class="footer">कंपनीचे धोरण</div><div class="slide-no">स्लाईड ०५ / २२</div>
+</section>
+
+<!-- SLIDE 6: Business Divisions -->
+<section class="slide" data-slide="6">
+ <div class="kicker">०५ • व्यवसाय मॉडेल</div><h2>व्यवसायाचे दोन मुख्य विभाग</h2>
+ <div class="grid two">
+  <div class="card">
+   <h3>१. ॲक्टिव्ह फार्मास्युटिकल इन्ग्रिडिएंट्स (APIs)</h3>
+   <p style="font-size:17px; color:#5B9BD5; font-weight:bold; text-align:justify;">औषधांच्या निर्मितीसाठी लागणारे मुख्य रासायनिक घटक (Bulk Drugs) तयार करणे.</p>
+   <ul>
+    <li style="margin-bottom: 10px; font-size: 17px;">संकीर्ण (Complex) रेणूंची रासायनिक निर्मिती</li>
+    <li style="margin-bottom: 10px; font-size: 17px;">प्रगत उत्पादन प्रक्रिया आणि विकास</li>
+    <li style="margin-bottom: 0; font-size: 17px;">जागतिक कायदेशीर नियमांचे पालन</li>
+   </ul>
+  </div>
+  <div class="card teal-top">
+   <h3>२. फिनिश डोस फॉर्म्स (Formulations)</h3>
+   <p style="font-size:17px; color:#5B9BD5; font-weight:bold; text-align:justify;">रुग्णांच्या वापरासाठी प्रत्यक्ष गोळ्या, सिरप आणि इंजेक्शन्सचे उत्पादन करणे.</p>
+   <ul>
+    <li style="margin-bottom: 16px; font-size: 17px;">गोळ्या (Tablets), कॅप्सूल आणि सिरप</li>
+    <li style="margin-bottom: 16px; font-size: 17px;">स्टेरिलाईज्ड (जीवाणूमुक्त) इंजेक्शन्स</li>
+    <li style="margin-bottom: 0; font-size: 17px;">जागतिक दर्जाचे पॅकेजिंग आणि वितरण</li>
+   </ul>
+  </div>
+ </div>
+ <div class="footer">व्यवसाय विभाग</div><div class="slide-no">स्लाईड ०६ / २२</div>
+</section>
+
+<!-- SLIDE 7: Therapeutic Segments -->
+<section class="slide" data-slide="7">
+ <div class="kicker">०६ • उत्पादने</div><h2>औषध निर्मितीची मुख्य क्षेत्रे</h2>
+ <div class="grid">
+  <div class="card"><h3>अँटी-इन्फेक्टीव्हज व अँटीबायोटिक्स</h3><p>संसर्गजन्य आजारांवरील उच्च दर्जाची औषधे व इंजेक्शन्स.</p></div>
+  <div class="card"><h3>हृदयविकार (Cardiovascular)</h3><p>उच्च रक्तदाब आणि हृदयाच्या आरोग्यासाठी आवश्यक औषधे.</p></div>
+  <div class="card"><h3>पचनसंस्था (Gastroenterology)</h3><p>ॲसिडिटी आणि पोटाच्या विकारांवर अतिशय प्रभावी Omeprazole औषधे.</p></div>
+  <div class="card"><h3>न्यूरॉलॉजी व युरोलॉजी</h3><p>मज्जासंस्था आणि मूत्रपिंडाशी संबंधित आजारांवरील उपचार.</p></div>
+  <div class="card"><h3>विशेष औषधे (Specialty Care)</h3><p>रक्ताच्या गाठी आणि त्वचेच्या विकारांवरील (Anti-acne) औषधे.</p></div>
+  <div class="card"><h3>ग्राहकांचे आरोग्य (FMCG)</h3><p>ओरल केअर आणि वैयक्तिक आरोग्याची उत्पादने (उदा. SPARKLE).</p></div>
+ </div>
+ <div class="footer">उत्पादने श्रेणी</div><div class="slide-no">स्लाईड ०७ / २२</div>
+</section>
+
+<!-- SLIDE 8: Geographic Footprint -->
+<section class="slide" data-slide="8">
+ <div class="kicker">०७ • कार्यक्षेत्र</div><h2>कंपनीची प्रमुख ठिकाणे</h2>
+ <div class="grid">
+  <div class="card"><div class="stat">मुंबई</div><h3>कॉर्पोरेट मुख्यालय</h3><p>मुख्य प्रशासकीय कार्यालय, धोरणात्मक नियोजन आणि जागतिक व्यापार केंद्र.</p></div>
+  <div class="card"><div class="stat">खोपोली</div><h3>फॉर्म्युलेशन प्लांट</h3><p>गोळ्या, कॅप्सूल आणि सिरप तयार करणारे मुख्य उत्पादन केंद्र.</p></div>
+  <div class="card"><div class="stat">महाड</div><h3>API प्लांट</h3><p>रासायनिक घटकांच्या (Bulk Drugs) निर्मितीसाठीचे समर्पित केंद्र.</p></div>
+  <div class="card"><div class="stat">पानोली</div><h3>प्रगत API प्लांट</h3><p>गुजरात येथील अत्याधुनिक संशोधन व विशेष घटक निर्मिती केंद्र.</p></div>
+  <div class="card"><div class="stat">प्रादेशिक</div><h3>विक्री कार्यालये</h3><p>दिल्ली, कोलकाता यांसारख्या प्रमुख शहरांमधील विक्री व वितरण कार्यालये.</p></div>
+  
+  <div class="card" style="display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 16px; background: #ffffff; border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 10px 25px rgba(10,37,64,0.08);">
+   <div style="font-weight: 700; color: var(--navy); font-size: 15px; border-bottom: 2px solid var(--line); padding-bottom: 6px;">
+    भारतभरातील उपस्थिती
+   </div>
+   <div style="display: flex; align-items: flex-start; gap: 8px; font-size: 13px;">
+    <span style="font-weight: 700; color: var(--navy); min-width: 95px;">मुख्यालय:</span>
+    <span>मुंबई, महाराष्ट्र</span>
+   </div>
+   <div style="display: flex; align-items: flex-start; gap: 8px; font-size: 13px;">
+    <span style="font-weight: 700; color: var(--navy); min-width: 95px;">कारखाने:</span>
+    <span>खोपोली, महाड व पानोली</span>
+   </div>
+   <div style="display: flex; align-items: flex-start; gap: 8px; font-size: 13px;">
+    <span style="font-weight: 700; color: var(--navy); min-width: 95px;">वितरण नेटवर्क:</span>
+    <span>संपूर्ण भारत व परदेशात निर्यात</span>
+   </div>
+  </div>
+ </div>
+ <div class="footer">भौगोलिक उपस्थिती</div><div class="slide-no">स्लाईड ०८ / २२</div>
+</section>
+
+<!-- SLIDE 9: Global Markets -->
+<section class="slide" data-slide="9">
+ <div class="kicker">०८ • जागतिक विस्तार</div><h2>जागतिक बाजारातील उपस्थिती</h2>
+ <div class="two-col" style="align-items: center;">
+  <div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
+   <img src="world.png" alt="World Map - Kopran Global Presence" style="width: 100%; height: auto; max-height: 400px; object-fit: contain;">
+  </div>
+  <div>
+   <div class="card teal-top">
+    <h3>जागतिक नेटवर्क आणि निर्यात</h3>
+    <p>कोप्रनने आंतरराष्ट्रीय स्तरावर मजबूत व्यापारी संबंध स्थापन केले असून अनेक देशांमध्ये औषधांची नोंदणी केली आहे.</p>
+    <ul>
+     <li><strong>लॅटिन अमेरिका:</strong> मुख्य औषधांच्या वितरणासाठी वेगाने वाढणारी बाजारपेठ.</li>
+     <li><strong>युरोप व युके:</strong> उच्च दर्जाच्या API आणि औषधांची यशस्वी निर्यात.</li>
+     <li><strong>आफ्रिका व मध्य पूर्व:</strong> अँटीबायोटिक्स आणि अत्यावश्यक औषधांचा विश्वासू पुरवठादार.</li>
+     <li><strong>दक्षिण-पूर्व आशिया:</strong> प्रमुख व्यावसायिक शहरांमध्ये वाढता विस्तार.</li>
+    </ul>
+   </div>
+  </div>
+ </div>
+ <div class="footer">जागतिक विस्तार</div><div class="slide-no">स्लाईड ०९ / २२</div>
+</section>
+
+<!-- SLIDE 10: Accreditations & Approvals -->
+<section class="slide" data-slide="10">
+ <div class="kicker">०९ • प्रमाणपत्रे</div><h2>जागतिक मानके आणि मान्यता</h2>
+ <div class="grid two">
+  <div class="card">
+   <h3>आंतरराष्ट्रीय प्राधिकरणांची मान्यता</h3>
+   <p>आमचे उत्पादन कारखाने जगातील अत्यंत मानांकित आरोग्य संस्थांकडून प्रमाणित आहेत:</p>
+   <div class="accreditation-badges">
+     <span class="badge" style="background:#0066CC">US FDA (अमेरिका)</span>
+     <span class="badge" style="background:#00A896">EU GMP (युरोप)</span>
+     <span class="badge" style="background:#2E7D32">WHO GMP (जागतिक आरोग्य संघटना)</span>
+     <span class="badge" style="background:#D5A83B">UK MHRA (ब्रिटन)</span>
+     <span class="badge" style="background:#D90429">SAHPRA (दक्षिण आफ्रिका)</span>
+     <span class="badge" style="background:#0A2540">TGA (ऑस्ट्रेलिया)</span>
+   </div>
+  </div>
+  <div class="card teal-top">
+   <h3>उत्कृष्टतेची मानके</h3>
+   <ul>
+    <li>सर्व कारखान्यांमध्ये सातत्याने तपासणी (Audit) आणि तयारी.</li>
+    <li>आंतरराष्ट्रीय औषध मानकांचे (Pharmacopoeia) तंतोतंत पालन.</li>
+    <li>जागतिक दर्जाची गुणवत्ता व्यवस्थापन प्रणाली (QMS).</li>
+    <li>पर्यावरण, आरोग्य आणि सुरक्षिततेचे कडक नियम.</li>
+   </ul>
+  </div>
+ </div>
+ <div class="callout">या आंतरराष्ट्रीय मानकांमुळे कोप्रनची औषधे ५० हून अधिक देशांतील रुग्णांपर्यंत पोहोचत आहेत.</div>
+ <div class="footer">गुणवत्ता मानके</div><div class="slide-no">स्लाईड १० / २२</div>
+</section>
+
+<!-- SLIDE 11: Approval Roadmap - Plant I -->
+<section class="slide" data-slide="11">
+ <div class="kicker">१० • प्लांट १ वैधानिक मंजुरी</div><h2>वैधानिक मंजुरीची वाटचाल: फॉर्म्युलेशन प्लांट – १</h2>
+ <div class="roadmap-wrapper">
+   <svg class="roadmap-svg" viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg">
+     <path class="road-path-bg" d="M 50,300 C 180,300 200,80 340,80 C 480,80 500,300 650,300 C 800,300 820,80 950,80" />
+     <path class="road-path-inner" d="M 50,300 C 180,300 200,80 340,80 C 480,80 500,300 650,300 C 800,300 820,80 950,80" />
+     <path class="road-dash" d="M 50,300 C 180,300 200,80 340,80 C 480,80 500,300 650,300 C 800,300 820,80 950,80" />
+
+     <g class="node-pin" transform="translate(60,300)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MCC, S. Africa</text><text class="node-sub" x="0" y="10" text-anchor="middle">Oct. 2013</text></g>
+     <g class="node-pin" transform="translate(130,225)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH Iraq</text><text class="node-sub" x="0" y="10" text-anchor="middle">Mar. 2018</text></g>
+     <g class="node-pin" transform="translate(195,145)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">FDA Philippines</text><text class="node-sub" x="0" y="10" text-anchor="middle">Apr. 2018</text></g>
+     <g class="node-pin" transform="translate(290,80)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH, Oman</text><text class="node-sub" x="0" y="10" text-anchor="middle">Jul. 2018</text></g>
+     <g class="node-pin" transform="translate(380,105)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH Libya</text><text class="node-sub" x="0" y="10" text-anchor="middle">May 2022</text></g>
+     <g class="node-pin" transform="translate(450,195)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH Yemen</text><text class="node-sub" x="0" y="10" text-anchor="middle">Aug. 2022</text></g>
+     <g class="node-pin" transform="translate(525,275)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">WHO-CDSCO</text><text class="node-sub" x="0" y="10" text-anchor="middle">Oct. 2022</text></g>
+     <g class="node-pin" transform="translate(615,300)"><rect class="node-card" x="-42" y="-18" width="84" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MHRA UK</text><text class="node-sub" x="0" y="10" text-anchor="middle">Apr. 2023</text></g>
+     <g class="node-pin" transform="translate(700,270)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">EFDA Ethiopia</text><text class="node-sub" x="0" y="10" text-anchor="middle">May 2023</text></g>
+     <g class="node-pin" transform="translate(775,185)"><rect class="node-card" x="-42" y="-18" width="84" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">PPB Kenya</text><text class="node-sub" x="0" y="10" text-anchor="middle">Dec. 2024</text></g>
+     <g class="node-pin" transform="translate(845,115)"><rect class="node-card" x="-48" y="-18" width="96" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">TMDA/NDA/FDA</text><text class="node-sub" x="0" y="10" text-anchor="middle">Aug / Sept 2025</text></g>
+     <g class="node-pin" transform="translate(940,80)"><rect class="node-card" x="-45" y="-20" width="90" height="40" stroke="#2E7D32" stroke-width="1.5"/><text class="node-title" x="0" y="-4" text-anchor="middle" fill="#2E7D32">EU-GMP, Malta</text><text class="node-sub" x="0" y="10" text-anchor="middle" font-weight="bold">Jan. 2026</text></g>
+   </svg>
+ </div>
+ <div class="footer">मंजुरी इतिहास • प्लांट १</div><div class="slide-no">स्लाईड ११ / २२</div>
+</section>
+
+<!-- SLIDE 12: Approval Roadmap - Plant II -->
+<section class="slide" data-slide="12">
+ <div class="kicker">११ • प्लांट २ वैधानिक मंजुरी</div><h2>वैधानिक मंजुरीची वाटचाल: फॉर्म्युलेशन प्लांट – २</h2>
+ <div class="roadmap-wrapper">
+   <svg class="roadmap-svg" viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg">
+     <path class="road-path-bg" d="M 50,300 C 180,300 200,80 340,80 C 480,80 500,300 650,300 C 800,300 820,80 950,80" />
+     <path class="road-path-inner" d="M 50,300 C 180,300 200,80 340,80 C 480,80 500,300 650,300 C 800,300 820,80 950,80" />
+     <path class="road-dash" d="M 50,300 C 180,300 200,80 340,80 C 480,80 500,300 650,300 C 800,300 820,80 950,80" />
+
+     <g class="node-pin" transform="translate(50,300)"><rect class="node-card" x="-42" y="-18" width="84" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">TGA Australia</text><text class="node-sub" x="0" y="10" text-anchor="middle">Aug. 2012</text></g>
+     <g class="node-pin" transform="translate(115,245)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MCC, S. Africa</text><text class="node-sub" x="0" y="10" text-anchor="middle">Oct. 2013</text></g>
+     <g class="node-pin" transform="translate(175,170)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH Iraq</text><text class="node-sub" x="0" y="10" text-anchor="middle">Mar. 2018</text></g>
+     <g class="node-pin" transform="translate(245,100)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">FDA Philippines</text><text class="node-sub" x="0" y="10" text-anchor="middle">Apr. 2018</text></g>
+     <g class="node-pin" transform="translate(320,80)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH Oman</text><text class="node-sub" x="0" y="10" text-anchor="middle">Jul. 2018</text></g>
+     <g class="node-pin" transform="translate(400,120)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH Libya</text><text class="node-sub" x="0" y="10" text-anchor="middle">May 2022</text></g>
+     <g class="node-pin" transform="translate(470,210)"><rect class="node-card" x="-40" y="-18" width="80" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MOH Yemen</text><text class="node-sub" x="0" y="10" text-anchor="middle">Aug. 2022</text></g>
+     <g class="node-pin" transform="translate(540,280)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MCA Zimbabwe</text><text class="node-sub" x="0" y="10" text-anchor="middle">Sept. 2022</text></g>
+     <g class="node-pin" transform="translate(615,300)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">WHO-CDSCO</text><text class="node-sub" x="0" y="10" text-anchor="middle">Oct. 2022</text></g>
+     <g class="node-pin" transform="translate(695,270)"><rect class="node-card" x="-42" y="-18" width="84" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">MHRA UK</text><text class="node-sub" x="0" y="10" text-anchor="middle">Apr. 2023</text></g>
+     <g class="node-pin" transform="translate(770,190)"><rect class="node-card" x="-52" y="-18" width="104" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">PPB / TMDA / NDA</text><text class="node-sub" x="0" y="10" text-anchor="middle">Dec 2024 / Aug 2025</text></g>
+     <g class="node-pin" transform="translate(845,115)"><rect class="node-card" x="-45" y="-18" width="90" height="36"/><text class="node-title" x="0" y="-3" text-anchor="middle">FDA Rwanda</text><text class="node-sub" x="0" y="10" text-anchor="middle">Sept. 2025</text></g>
+     <g class="node-pin" transform="translate(940,80)"><rect class="node-card" x="-45" y="-20" width="90" height="40" stroke="#2E7D32" stroke-width="1.5"/><text class="node-title" x="0" y="-4" text-anchor="middle" fill="#2E7D32">EU-GMP, Malta</text><text class="node-sub" x="0" y="10" text-anchor="middle" font-weight="bold">Jan. 2026</text></g>
+   </svg>
+ </div>
+ <div class="footer">मंजुरी इतिहास • प्लांट २</div><div class="slide-no">स्लाईड १२ / २२</div>
+</section>
+
+<!-- SLIDE 13: How Medicines Are Made -->
+<section class="slide" data-slide="13">
+ <div class="kicker">१२ • कामकाज</div><h2>औषध निर्मितीची सोपी प्रक्रिया</h2>
+ <p style="color:var(--muted);margin-top:-10px;font-size:15px">कच्च्या मालापासून ते तयार औषधांपर्यंतचा टप्पा</p>
+ <div class="process-flow">
+    <div class="process-step">१. कच्चा माल<br><span style="font-weight: normal; font-size:11px;">खरेदी आणि गुणवत्ता तपासणी</span></div>
+    <div class="process-arrow">➔</div>
+    <div class="process-step">२. प्रक्रिया / मिश्रण<br><span style="font-weight: normal; font-size:11px;">रासायनिक प्रक्रिया / ग्रॅन्यूलेशन</span></div>
+    <div class="process-arrow">➔</div>
+    <div class="process-step">३. मुख्य निर्मिती<br><span style="font-weight: normal; font-size:11px;">गोळ्या पंच करणे / कॅप्सूल भरणे</span></div>
+    <div class="process-arrow">➔</div>
+    <div class="process-step">४. गुणवत्ता नियंत्रण<br><span style="font-weight: normal; font-size:11px;">प्रयोगशाळेत तपासणी व मंजुरी</span></div>
+    <div class="process-arrow">➔</div>
+    <div class="process-step">५. पॅकेजिंग<br><span style="font-weight: normal; font-size:11px;">स्ट्रिप / बाटल्यांमध्ये पॅक करणे</span></div>
+    <div class="process-arrow">➔</div>
+    <div class="process-step">६. वितरण<br><span style="font-weight: normal; font-size:11px;">जागतिक बाजारात पुरवठा</span></div>
+ </div>
+ <div class="callout" style="text-align:center">
+   या प्रक्रियेतील प्रत्येक टप्प्यावर कडक स्वच्छता, कागदपत्रे आणि वातावरणीय नियंत्रणाची आवश्यकता असते.
+ </div>
+ <div class="footer">औषध निर्मिती प्रक्रिया</div><div class="slide-no">स्लाईड १३ / २२</div>
+</section>
+
+<!-- SLIDE 14: Value Chain Overview -->
+<section class="slide" data-slide="14">
+ <div class="kicker">१३ • निर्मिती साखळी</div><h2>संशोधनापासून ते रुग्णांपर्यंत</h2>
+ <div class="process">
+  <div class="step" style="border-top: 4px solid #0066CC;">
+    <div class="num" style="color: #0066CC;">०१</div>
+    <h3 style="color: #0066CC;">संशोधन व खरेदी</h3>
+    <p>R&D कडून संशोधन आणि उत्तम कच्च्या मालाची खरेदी.</p>
+  </div>
+  <div class="step" style="border-top: 4px solid #00A896;">
+    <div class="num" style="color: #00A896;">०२</div>
+    <h3 style="color: #00A896;">रासायनिक प्रक्रिया</h3>
+    <p>नियंत्रित वातावरणात रासायनिक प्रक्रिया व मिश्रण.</p>
+  </div>
+  <div class="step" style="border-top: 4px solid #D5A83B;">
+    <div class="num" style="color: #D5A83B;">०३</div>
+    <h3 style="color: #D5A83B;">तयार स्वरूप</h3>
+    <p>गोळ्या बनवणे, कॅप्सूल भरणे किंवा लिक्विड भरणे.</p>
+  </div>
+  <div class="step" style="border-top: 4px solid #E63946;">
+    <div class="num" style="color: #E63946;">०४</div>
+    <h3 style="color: #E63946;">गुणवत्ता चाचणी</h3>
+    <p>कडक प्रयोगशाळा चाचण्या आणि अंतिम मंजुरी.</p>
+  </div>
+  <div class="step" style="border-top: 4px solid #6A0572;">
+    <div class="num" style="color: #6A0572;">०५</div>
+    <h3 style="color: #6A0572;">सुरक्षित वितरण</h3>
+    <p>सुरक्षित पॅकेजिंग आणि जगभरात पुरवठा.</p>
+  </div>
+ </div>
+ <div class="callout">रुग्णांच्या सुरक्षिततेसाठी प्रत्येक टप्प्यावर सर्व नियमांचे पालन करणे बंधनकारक आहे.</div>
+ <div class="footer">उत्पादन साखळी</div><div class="slide-no">स्लाईड १४ / २२</div>
+</section>
+
+<!-- SLIDE 15: Manufacturing Discipline & cGMP -->
+<section class="slide" data-slide="15">
+ <div class="kicker">१४ • शिस्त व नियम</div><h2>गुणवत्तापूर्ण उत्पादन आणि cGMP चे पालन</h2>
+ <div class="grid two" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch;">
+  <div class="card" style="display: flex; flex-direction: column;">
+   <h3 style="font-size: 20px; margin-bottom: 16px;">गुड मॅन्युफॅक्चरिंग प्रॅक्टिसेस (cGMP)</h3>
+   <ul style="margin: 0; padding-left: 20px;">
+    <li style="margin-bottom: 14px;">मंजूर मानक कार्यप्रणाली (SOPs) चे तंतोतंत पालन करणे.</li>
+    <li style="margin-bottom: 14px;">विशेष कपडे आणि सुरक्षिततेच्या साधनांचा (PPE) वापर.</li>
+    <li style="margin-bottom: 14px;">कारखान्यातील वेगवेगळ्या विभागांनुसार ठरवून दिलेल्या युनिफॉर्मचा वापर.</li>
+    <li style="margin-bottom: 0;">यंत्रसामग्रीची नियमित देखभाल आणि हवा शुद्धीकरण प्रणाली.</li>
+   </ul>
+  </div>
+  <div class="card teal-top" style="display: flex; flex-direction: column;">
+   <h3 style="font-size: 20px; margin-bottom: 16px;">क्लीनरूम्स आणि शुद्धतेची काळजी</h3>
+   <p style="margin-bottom: 16px; line-height: 1.6;">औषधांमध्ये बाहेरील धुलीकण किंवा इतर घटकांची भेसळ होऊ नये म्हणून आमच्या कारखान्यांमध्ये विशेष 'क्लीनरूम' आणि हवा नियंत्रण यंत्रणा बसवण्यात आली आहे.</p>
+   <ul style="margin: 0; padding-left: 20px;">
+    <li style="margin-bottom: 14px;">HEPA फिल्टरद्वारे हवेची शुद्धता राखणे.</li>
+    <li style="margin-bottom: 14px;">विभागांमधील हवेचा दाब नियंत्रित ठेवून दूषित हवेला रोखणे.</li>
+    <li style="margin-bottom: 0;">कर्मचारी व साहित्यासाठी स्वतंत्र एअरलॉक प्रवेश पद्धत.</li>
+   </ul>
+  </div>
+ </div>
+ <div class="footer">कारखान्यातील शिस्त</div><div class="slide-no">स्लाईड १५ / २२</div>
+</section>
+
+<!-- SLIDE 16: Quality Mindset -->
+<section class="slide" data-slide="16">
+ <div class="kicker">१५ • गुणवत्ता</div><h2>गुणवत्ता: आपल्या सर्वांची जबाबदारी</h2>
+ <div class="grid">
+  <div class="card"><h3>रुग्णांची सुरक्षितता प्रथम</h3><p>आपण बनवलेली प्रत्येक गोळी रुग्णाच्या आरोग्यावर थेट परिणाम करते. त्यामुळे गुणवत्तेशी कोणतीही तडजोड केली जात नाही.</p></div>
+  <div class="card"><h3>पहिल्याच वेळी योग्य काम</h3><p>प्रत्येक काम पहिल्यांदाच अचूक केल्याने चुका टाळतात, वेळ वाचतो आणि नियमांचे योग्य पालन होते.</p></div>
+  <div class="card"><h3>कागदपत्रांची अचूकता</h3><p>उत्पादनाची सर्व नोंद (Batch Records) खरी आणि वेळेवर केल्याने विश्वासाचे वातावरण निर्माण होते.</p></div>
+ </div>
+ <div class="callout">कोप्रनमध्ये गुणवत्ता हा केवळ एक विभाग नाही—तर ती प्रत्येक कर्मचाऱ्याची रोजच्या कामातील विचारसरणी आहे.</div>
+ <div class="footer">गुणवत्ता संस्कृती</div><div class="slide-no">स्लाईड १६ / २२</div>
+</section>
+
+<!-- SLIDE 17: EHS -->
+<section class="slide" data-slide="17">
+ <div class="kicker">१६ • सुरक्षितता व पर्यावरण</div><h2>सुरक्षितता, आरोग्य आणि पर्यावरण (EHS)</h2>
+ <div class="grid two">
+  <div class="card">
+   <h3>कर्मचारी आरोग्य व सुरक्षितता</h3>
+   <ul>
+    <li style="margin-bottom: 14px;">कामाच्या ठिकाणी सुरक्षिततेच्या धोक्यांशी शून्य तडजोड धोरण.</li>
+    <li style="margin-bottom: 14px;">सुरक्षा साधनांचा वापर, नियमित प्रशिक्षण आणि आपत्कालीन सराव (Drills).</li>
+    <li style="margin-bottom: 0;">सर्व कारखान्यांमध्ये सुसज्ज 'ऑक्युपेशनल हेल्थ सेंटर' (OHC) उपलब्ध.</li>
+   </ul>
+  </div>
+  <div class="card teal-top">
+   <h3>पर्यावरणाचे रक्षण</h3>
+   <ul>
+    <li style="margin-bottom: 14px;">रासायनिक टाकाऊ पदार्थांवर योग्य प्रक्रिया आणि सांडपाणी व्यवस्थापन.</li>
+    <li style="margin-bottom: 14px;">नैसर्गिक संसाधनांचा योग्य वापर आणि पर्यावरणपूरक उत्पादन.</li>
+    <li style="margin-bottom: 0;">शासकीय पर्यावरण नियमांचे पूर्ण पालन.</li>
+   </ul>
+  </div>
+ </div>
+ <div class="footer">जबाबदार कामकाज</div><div class="slide-no">स्लाईड १७ / २२</div>
+</section>
+
+<!-- SLIDE 18: Inter-Functional Ecosystem -->
+<section class="slide" data-slide="18">
+ <div class="kicker">१७ • परस्पर सहकार्य</div><h2>सर्व विभाग कसे एकत्र काम करतात</h2>
+ <div class="grid">
+  <div class="card"><h3>R&D व तंत्रज्ञान</h3><p>नवीन औषधांचे संशोधन करणे व कारखान्याला उत्पादन तंत्रज्ञान हस्तांतरित करणे.</p></div>
+  <div class="card"><h3>उत्पादन विभाग (Production)</h3><p>SOPs नुसार कडक नियंत्रणाखाली औषधांचे प्रत्यक्ष उत्पादन करणे.</p></div>
+  <div class="card"><h3>गुणवत्ता नियंत्रण (QA & QC)</h3><p>कच्च्या मालाची व तयार औषधांची तपासणी करून त्यांना मंजुरी देणे.</p></div>
+  <div class="card"><h3>इंजिनिअरिंग व EHS</h3><p>यंत्रसामग्रीची काळजी घेणे, वीज/पाणी पुरवठा आणि सुरक्षितता राखणे.</p></div>
+  <div class="card"><h3>सप्लाय चेन व लॉजिस्टिक्स</h3><p>वेळेवर कच्चा माल आणणे आणि तयार औषधे जगभरात पोहोचवणे.</p></div>
+  <div class="card"><h3>HR, फायनान्स व सपोर्ट</h3><p>योग्य मनुष्यबळ पुरवणे, आर्थिक व्यवस्थापन आणि प्रशासकीय पाठबळ देणे.</p></div>
+ </div>
+ <div class="footer">संस्थात्मक रचना</div><div class="slide-no">स्लाईड १८ / २२</div>
+</section>
+
+<!-- SLIDE 19: Corporate Values -->
+<section class="slide" data-slide="19">
+ <div class="kicker">१८ • मूल्ये</div><h2>आमची सामायिक मूल्ये</h2>
+ <div class="behaviour">
+  <div class="card"><h3>नाविन्यता</h3><div class="icon" style="margin: 8px 0;">💡</div><p style="font-weight: bold;">नवीन विचारांना आणि तंत्रज्ञानाला प्रोत्साहन.</p></div>
+  <div class="card"><h3>उत्कृष्टता</h3><div class="icon" style="margin: 8px 0;">⭐</div><p style="font-weight: bold;">सर्व कामांमध्ये उच्च दर्जा राखण्याचा प्रयत्न.</p></div>
+  <div class="card"><h3>सहकार्य</h3><div class="icon" style="margin: 8px 0;">🤝</div><p style="font-weight: bold;">ध्येय साध्य करण्यासाठी एकत्र मिळून काम करणे.</p></div>
+  <div class="card"><h3>जबाबदारी</h3><div class="icon" style="margin: 8px 0;">🎯</div><p style="font-weight: bold;">आपल्या कर्तव्याची जबाबदारी स्वीकारणे.</p></div>
+  <div class="card"><h3>शाश्वतता</h3><div class="icon" style="margin: 8px 0;">🌱</div><p style="font-weight: bold;">पर्यावरण आणि समाजाप्रति जबाबदारीने वागणे.</p></div>
+  <div class="card"><h3>प्रामाणिकपणा</h3><div class="icon" style="margin: 8px 0;">🛡️</div><p style="font-weight: bold;">कामकाजात व नोंदींमध्ये पूर्ण सत्यता राखणे.</p></div>
+ </div>
+ <div class="callout" style="font-weight: bold;">ही मुख्य तत्त्वे आपल्या कामाची संस्कृती, एकमेकांशी असणारे संबंध आणि व्यवसायाचे निर्णय मार्गदर्शित करतात.</div>
+ <div class="footer">मूल्ये आणि आचरण</div><div class="slide-no">स्लाईड १९ / २२</div>
+</section>
+
+<!-- SLIDE 20: Ethics & Compliance -->
+<section class="slide" data-slide="20">
+ <div class="kicker">१९ • नैतिकता</div><h2>नैतिकता आणि नियमांचे पालन</h2>
+ <div style="display: flex; flex-direction: column; gap: 20px;">
+  <div class="quote" style="white-space: nowrap;">कोणीही पाहत नसतानाही नेहमी योग्य तेच काम करा.</div>
+  <div class="card" style="padding: 24px; font-size: 16px;">
+   <ul style="margin: 0; padding-left: 20px;">
+    <li style="margin-bottom: 14px; font-size: 18px;">कंपनीचे सर्व नियम (SOPs), सुरक्षितता मानके आणि कायदे पाळा.</li>
+    <li style="margin-bottom: 14px; font-size: 18px;">उत्पादन नोंदी आणि कागदपत्रांमध्ये पूर्ण पारदर्शकता व सत्यता ठेवा.</li>
+    <li style="margin-bottom: 14px; font-size: 18px;">कंपनीची गोपनीय माहिती आणि फॉर्म्युला जपा.</li>
+    <li style="margin-bottom: 14px; font-size: 18px;">मोकळेपणाने बोला: सुरक्षिततेचे धोके किंवा नियमांचे उल्लंघन झाल्यास त्वरित कळवा.</li>
+    <li style="margin-bottom: 0; font-size: 18px;">सर्व सहकारी, विक्रेते आणि भागीदारांशी आदराने व सन्मानाने वागा.</li>
+   </ul>
+  </div>
+ </div>
+ <div class="footer">नैतिकता आणि सुशासन</div><div class="slide-no">स्लाईड २० / २२</div>
+</section>
+
+<!-- SLIDE 21: Expectations -->
+<section class="slide" data-slide="21">
+ <div class="kicker">२० • अपेक्षा</div><h2>प्रत्येक कर्मचाऱ्याकडून काय अपेक्षा आहेत?</h2>
+ <div class="grid two">
+  <div class="card">
+   <h3 style="font-size: 24px;">कामाच्या ठिकाणची मानसिकता</h3>
+   <ul>
+    <li style="font-size: 20px;"><strong>सुरक्षितता प्रथम:</strong> सर्व कामांमध्ये स्वतःच्या आणि टीमच्या आरोग्याला प्राधान्य द्या.</li>
+    <li style="font-size: 20px;"><strong>नेहमी गुणवत्ता:</strong> अचूकता आणि नियमांच्या पालनाशी कधीही तडजोड करू नका.</li>
+    <li style="font-size: 20px;"><strong>सतत सुधारणा:</strong> काम अधिक चांगल्या आणि सुरक्षित पद्धतीने करण्याचे मार्ग शोधा.</li>
+   </ul>
+  </div>
+  <div class="card teal-top">
+   <h3 style="font-size: 24px;">व्यावसायिक आचरण</h3>
+   <ul>
+    <li style="font-size: 20px;"><strong>जबाबदारी:</strong> तुमच्या कामाची आणि निकालांची पूर्ण जबाबदारी घ्या.</li>
+    <li style="font-size: 20px;"><strong>संघभावना (Teamwork):</strong> सर्व विभागांतील सहकाऱ्यांना यशस्वी होण्यासाठी मदत करा.</li>
+    <li style="font-size: 20px;"><strong>वेळेचे पालन व शिस्त:</strong> वेळेचे नियोजन आणि कंपनीच्या नियमांचा आदर करा.</li>
+   </ul>
+  </div>
+ </div>
+ <div class="footer">कर्मचारी आचारसंहिता</div><div class="slide-no">स्लाईड २१ / २२</div>
+</section>
+
+<!-- SLIDE 22: Welcome Onboard -->
+<section class="slide cover" data-slide="22">
+ <div class="end">
+  <div class="kicker" style="color:#8de0dc; font-size: 24px">तुमचा प्रवास आजपासून सुरू होत आहे</div>
+  <h1 style="font-size:clamp(36px,5vw,64px)">कोप्रन परिवारामध्ये आपले स्वागत आहे!</h1>
+  <p class="subtitle" style="text-align:center; font-size: 24px">जाणून घ्या • समजून घ्या • योगदान द्या • प्रगती करा</p>
+  <p style="margin-top:30px;color:#b9d8dc;font-size:24px">तुमच्यासोबत एक निरोगी व उज्ज्वल भविष्य घडवण्यासाठी आम्ही उत्सुक आहोत.</p>
+ </div>
+ <div class="footer">कोप्रन लिमिटेड • नवीन कर्मचारी अभिमुखता</div><div class="slide-no">स्लाईड २२ / २२</div>
+</section>
+
+</div>
+
+<!-- Navigation Controls -->
+<div class="controls">
+ <button onclick="prev()" title="मागील स्लाईड">◄ मागे</button>
+ <button id="voiceBtn" onclick="toggleVoice()" title="आवाज पुन्हा ऐका">🔊 रीप्ले</button>
+ <button onclick="next()" title="पुढील स्लाईड">पुढे ►</button>
+ <button onclick="toggleFullscreen()" title="फुलस्क्रीन मोड">⛶</button>
+</div>
+
+<script>
+const slides = [...document.querySelectorAll('.slide')];
+let current = 0;
+const progress = document.getElementById('progress');
+const voiceBtn = document.getElementById('voiceBtn');
+
+// HTML5 Audio Instance for pre-recorded .wav files
+let currentAudio = new Audio();
+
+function playAudioForSlide(n) {
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+
+  const audioPath = `slidem${n + 1}.wav`;
+  
+  currentAudio.src = audioPath;
+
+  currentAudio.onplay = () => voiceBtn.classList.add('speaking');
+  currentAudio.onended = () => voiceBtn.classList.remove('speaking');
+  currentAudio.onerror = () => {
+    voiceBtn.classList.remove('speaking');
+    console.warn(`Audio file not found: ${audioPath}`);
+  };
+
+  currentAudio.play().catch(e => {
+    console.log("Audio playback waiting for user interaction or file path error:", e);
+    voiceBtn.classList.remove('speaking');
+  });
+}
+
+function startPresentation() {
+  document.getElementById('startOverlay').style.display = 'none';
+  show(0);
+}
+
+function toggleVoice() {
+  if (!currentAudio.src) {
+    playAudioForSlide(current);
+    return;
+  }
+
+  if (!currentAudio.paused) {
+    currentAudio.pause();
+    voiceBtn.classList.remove('speaking');
+  } else {
+    currentAudio.play().catch(e => console.warn(e));
+    voiceBtn.classList.add('speaking');
+  }
+}
+
+function show(n) {
+  if (n < 0) n = 0;
+  if (n >= slides.length) n = slides.length - 1;
+  
+  current = n;
+  slides.forEach((s, i) => s.classList.toggle('active', i === current));
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+  history.replaceState(null, '', '#slide-' + (current + 1));
+  
+  if (document.getElementById('startOverlay').style.display === 'none') {
+    playAudioForSlide(current);
+  }
+}
+
+function next() {
+  if (current < slides.length - 1) {
+    show(current + 1);
+  }
+}
+
+function prev() {
+  if (current > 0) {
+    show(current - 1);
+  }
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen?.();
+  } else {
+    document.exitFullscreen?.();
+  }
+}
+
+// Keyboard Navigation
+document.addEventListener('keydown', e => {
+  if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); next(); }
+  if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); prev(); }
+  if (e.key === 'Home') show(0);
+  if (e.key === 'End') show(slides.length - 1);
+  if (e.key.toLowerCase() === 'f') toggleFullscreen();
+});
+
+// Mobile Swipe Support
+let touchX = null;
+document.addEventListener('touchstart', e => touchX = e.changedTouches[0].screenX, { passive: true });
+document.addEventListener('touchend', e => {
+  if (touchX === null) return;
+  const dx = e.changedTouches[0].screenX - touchX;
+  if (Math.abs(dx) > 45) dx < 0 ? next() : prev();
+  touchX = null;
+}, { passive: true });
+</script>
+</body>
+</html>
